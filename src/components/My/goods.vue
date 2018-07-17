@@ -1,0 +1,191 @@
+<template>
+  <div>
+    <div id="goods" class="sf-item-list-narrow">
+      <ul class="sf-pai-item-list" v-if="itemList.length>0">
+        <li v-for="(item , index) in itemList" :key="index" class="pai-item">
+          <div class="header-section">
+            <img v-if="item.showWay==1" class="pic"
+                 :src="baseUrl+item.showUrl"
+                 :alt="item.productName">
+            <video v-if="item.showWay==2" class="pic"
+                   :src="baseUrl+item.showUrl"
+                   :alt="item.productName">
+            </video>
+            <p class="title">{{item.productName}}</p>
+          </div>
+          <div class="info-section">
+            <p class="price price-current">
+              <span class="label">当前价</span>
+              <span class="value"><em class="currency">¥</em><em
+                class="pai-xmpp-current-price price-font-small">{{item.topPrice}} 万</em></span>
+              <span class="bid-tips ">（<em class="pai-xmpp-bid-count">{{item.goPriceNums}}</em>次出价）</span>
+            </p>
+          </div>
+          <div class="footer-section">
+            <p class="num-auction"><em class="pai-xmpp-viewer-count">剩余时间：</em>
+              <count-down :endTime="item.endSaleDatetime"></count-down>
+            </p>
+            <p class="num-apply" v-if="item.transferWay ===1"><em>快递</em></p>
+            <p class="num-apply" v-if="item.transferWay ===2"><em>自提</em></p>
+            <p class="num-apply" v-if="item.transferWay ===3"><em>送货上门</em></p>
+          </div>
+        </li>
+      </ul>
+      <div v-else class="none-good">
+        —— 暂无商品 ——
+      </div>
+    </div>
+    <div class="page-outer" v-if="itemList.length>6">
+      <el-pagination
+        layout="prev, pager, next"
+        :page-size="pageSize"
+        :page-count="pageCount">
+      </el-pagination>
+    </div>
+  </div>
+</template>
+
+<script type="text/ecmascript-6">
+  import * as USER from '../../assets/js/user'
+  import CountDown from '../../common/countDown/countDown.vue'
+
+  export default {
+    data () {
+      return {
+        itemList: [],
+        baseUrl: USER.baseUrl,
+        page: 0,
+        pageCount: 0,
+        pageSize: 6
+      }
+    },
+    methods: {
+      getItemList () {
+        const data = {
+          typeId: this.typeId,
+          pageSize: 6,
+          pageNo: this.page
+        }
+        console.log(data)
+        const url = 'paimai/front/list_products'
+        const ret = (r) => {
+          console.log(r)
+          if (r.busCode === 200) {
+            this.itemList = r.data.list
+            this.pageCount = r.data.pageCount
+          } else {
+            this.$alert(r.data)
+          }
+        }
+        USER.ajax(url, 'get', data, ret)
+      }
+    },
+    components: {
+      CountDown
+    },
+    props: ['typeId'],
+    mounted () {}
+  }
+</script>
+
+<style scoped lang="less">
+  .sf-item-list-narrow {
+    .none-good {
+      text-align: center;
+      color: #999999;
+    }
+    width: 930px;
+    margin: 20px 0 0;
+    overflow: visible;
+    min-height: 320px;
+    .sf-pai-item-list {
+      clear: none !important;
+      .pai-item {
+        float: left;
+        margin: 0 23px 20px 0;
+        border: 1px solid #eaeaea;
+        display: block;
+        position: relative;
+        width: 278px;
+        height: 272px;
+        .header-section {
+          display: block;
+          text-align: center;
+          overflow: hidden;
+          position: relative;
+          width: 278px;
+          height: 185px;
+          line-height: 180px;
+          .title {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            background-color: #fff;
+            background: rgba(255, 255, 255, .9);
+            filter: alpha(opacity=90);
+            color: #000;
+            font-size: 14px;
+            position: absolute;
+            padding: 0 13px;
+            left: 0;
+            bottom: 0;
+            height: 24px;
+            line-height: 24px;
+            width: 252px;
+            text-align: left;
+          }
+        }
+        .info-section {
+          color: #999;
+          display: block;
+          font-size: 12px;
+          padding-left: 13px;
+          height: 42px;
+          .price {
+            padding-top: 10px;
+            height: 30px;
+            line-height: 30px;
+            .value {
+              color: #d91615;
+              padding-left: 10px;
+              font-weight: 700;
+            }
+            .price-font-small {
+              font-size: 16px;
+            }
+          }
+        }
+        .footer-section {
+          zoom: 1;
+          clear: none !important;
+          border-top: 1px solid #eee;
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 278px;
+          height: 36px;
+          line-height: 36px;
+          .num-auction {
+            border-right: 1px solid #eee;
+            font-size: 12px;
+            color: #999;
+            float: left;
+            padding-left: 12px;
+            width: 186px;
+          }
+          .num-apply {
+            font-size: 14px;
+            color: #999;
+            float: left;
+            width: 78px;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+
+  .page-outer {
+    text-align: center;
+  }
+</style>
