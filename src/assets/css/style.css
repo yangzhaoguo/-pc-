@@ -32,3 +32,6 @@
   -webkit-justify-content: space-between;
   justify-content: space-between;
 }
+.text-red{
+  color: darkred;
+}

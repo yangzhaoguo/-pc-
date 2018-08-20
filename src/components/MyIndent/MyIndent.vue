@@ -9,7 +9,7 @@
                    :name="item.typeId"
                    :label="item.typeName"
                    :key="index">
-        {{index}}
+        <Goods></Goods>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -17,24 +17,25 @@
 
 <script>
   import * as USER from '../../assets/js/user'
+  import Goods from './goods.vue'
 
   export default {
     data () {
       return {
         activeName: '0',
         typeList: [
-          {typeName: '竞拍中'},
-          {typeName: '出价被超越'},
-          {typeName: '竞拍失败'},
-          {typeName: '竞拍成功'}
+          {typeName: '待支付', status: 1},
+          {typeName: '待发货', status: 2},
+          {typeName: '待收货', status: 3},
+          {typeName: '待评价', status: 4},
+          {typeName: '已评价', status: 5},
+          {typeName: '退款', status: 6}
         ]
       }
     },
     methods: {
       handleClick (tab) {
-        if (tab.index > 0) {
-//          this.$refs.tabRef[tab.index - 1].getItemList()
-        }
+        this.$refs.tabRef[tab.index - 1].getItemList()
       },
       getTypeList () {
         const url = 'paimai/front/list_product_type'
@@ -49,7 +50,9 @@
         USER.ajax(url, 'get', {}, ret)
       }
     },
-    components: {},
+    components: {
+      Goods
+    },
     mounted () {
     }
   }

@@ -30,19 +30,14 @@
       }
     },
     methods: {
-      handleClick (tab) {
-        if (tab.index > 0) {
-          this.$refs.tabRef[tab.index - 1].getItemList()
-        }
-      },
+      handleClick (tab) {},
       getTypeList () {
         const url = 'paimai/front/list_product_type'
         const ret = (r) => {
           if (r.busCode === 200) {
             this.typeList = r.data
-            this.$refs.allGood.getItemList()
           } else {
-            this.$alert(r)
+            this.$alert(r.data)
           }
         }
         USER.ajax(url, 'get', {}, ret)

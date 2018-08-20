@@ -5,7 +5,7 @@
         <li v-for="(item , index) in itemList" :key="index" class="pai-item">
           <div class="header-section">
             <img v-if="item.showWay==1" class="pic"
-                 :src="baseUrl+item.showUrl"
+                 :src="item.showUrls[0]"
                  :alt="item.productName">
             <video v-if="item.showWay==2" class="pic"
                    :src="baseUrl+item.showUrl"
@@ -15,19 +15,16 @@
           </div>
           <div class="info-section">
             <p class="price price-current">
-              <span class="label">当前价</span>
+              <span class="label">我出价</span>
               <span class="value"><em class="currency">¥</em><em
-                class="pai-xmpp-current-price price-font-small">{{item.topPrice}} 万</em></span>
-              <span class="bid-tips ">（<em class="pai-xmpp-bid-count">{{item.goPriceNums}}</em>次出价）</span>
+                class="pai-xmpp-current-price price-font-small">{{item.money}} 元</em></span>
             </p>
           </div>
           <div class="footer-section">
             <p class="num-auction"><em class="pai-xmpp-viewer-count">剩余时间：</em>
               <count-down :endTime="item.endSaleDatetime"></count-down>
             </p>
-            <p class="num-apply" v-if="item.transferWay ===1"><em>快递</em></p>
-            <p class="num-apply" v-if="item.transferWay ===2"><em>自提</em></p>
-            <p class="num-apply" v-if="item.transferWay ===3"><em>送货上门</em></p>
+            <p class="num-apply" @click="goHome"><em>去竞拍</em></p>
           </div>
         </li>
       </ul>
@@ -35,13 +32,13 @@
         —— 暂无商品 ——
       </div>
     </div>
-    <div class="page-outer" v-if="itemList.length>6">
-      <el-pagination
-        layout="prev, pager, next"
-        :page-size="pageSize"
-        :page-count="pageCount">
-      </el-pagination>
-    </div>
+    <!--<div class="page-outer" v-if="itemList.length>6">-->
+      <!--<el-pagination-->
+        <!--layout="prev, pager, next"-->
+        <!--:page-size="pageSize"-->
+        <!--:page-count="pageCount">-->
+      <!--</el-pagination>-->
+    <!--</div>-->
   </div>
 </template>
 
@@ -53,8 +50,7 @@
     data () {
       return {
         itemList: [],
-        baseUrl: USER.baseUrl,
-        page: 0,
+        page: 1,
         pageCount: 0,
         pageSize: 6
       }
@@ -62,29 +58,31 @@
     methods: {
       getItemList () {
         const data = {
-          typeId: this.typeId,
-          pageSize: 6,
-          pageNo: this.page
+          userId: USER.GetUserID()
         }
-        console.log(data)
-        const url = 'paimai/front/list_products'
+        const url = 'paimai/front/list_bid_fail'
         const ret = (r) => {
           console.log(r)
           if (r.busCode === 200) {
-            this.itemList = r.data.list
+            this.itemList = r.data
             this.pageCount = r.data.pageCount
           } else {
             this.$alert(r.data)
           }
         }
         USER.ajax(url, 'get', data, ret)
+      },
+      goHome () {
+        this.$router.push({path: '/home'})
       }
     },
     components: {
       CountDown
     },
     props: ['typeId'],
-    mounted () {}
+    mounted () {
+      this.getItemList()
+    }
   }
 </script>
 
@@ -102,7 +100,7 @@
       clear: none !important;
       .pai-item {
         float: left;
-        margin: 0 23px 20px 0;
+        margin: 0 26px 20px 0;
         border: 1px solid #eaeaea;
         display: block;
         position: relative;
@@ -116,6 +114,10 @@
           width: 278px;
           height: 185px;
           line-height: 180px;
+          .pic {
+            width: 100%;
+            height: 156px;
+          }
           .title {
             white-space: nowrap;
             text-overflow: ellipsis;
@@ -147,7 +149,6 @@
             line-height: 30px;
             .value {
               color: #d91615;
-              padding-left: 10px;
               font-weight: 700;
             }
             .price-font-small {

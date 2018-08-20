@@ -534,7 +534,6 @@
       },
       detailChange: function (val) {
         console.log(val)
-        console.log(1)
       }
     }
   }

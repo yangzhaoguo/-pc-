@@ -1,13 +1,13 @@
 <template>
-  <div style="position: relative">
+  <div>
     <div id="goods" class="sf-item-list-narrow">
       <ul class="sf-pai-item-list" v-if="itemList.length>0">
-        <li v-for="(item , index) in itemList" :key="index" class="pai-item" @click="goShopDetails(item)">
-          <div class="header-section">
+        <li v-for="(item , index) in itemList" :key="index" class="pai-item">
+          <div class="header-section" @click="goShopDetails(item)">
             <img v-if="item.showWay==1" class="pic"
-                 :src="item.showUrl"
+                 :src="item.showUrls[0]"
                  :alt="item.productName">
-            <video v-if="item.showWay==2" class="vid"
+            <video v-if="item.showWay==2" class="pic"
                    :src="baseUrl+item.showUrl"
                    :alt="item.productName">
             </video>
@@ -15,35 +15,35 @@
           </div>
           <div class="info-section">
             <p class="price price-current">
-              <span class="label">当前价</span>
+              <span class="label">我出价</span>
               <span class="value"><em class="currency">¥</em><em
-                class="pai-xmpp-current-price price-font-small">{{item.topPrice}} 元</em></span>
-              <span class="bid-tips ">（<em class="pai-xmpp-bid-count">{{item.goPriceNums}}</em>次出价）</span>
+                class="pai-xmpp-current-price price-font-small">{{item.money}} 元</em>
+              </span>
+              <span style="margin-left: 22px" class="label">当前价</span>
+              <span class="value"><em class="currency">¥</em><em
+                class="pai-xmpp-current-price price-font-small">{{item.topMoney}} 元</em>
+              </span>
             </p>
           </div>
           <div class="footer-section">
             <p class="num-auction"><em class="pai-xmpp-viewer-count">剩余时间：</em>
               <count-down :endTime="item.endSaleDatetime"></count-down>
             </p>
-            <p class="num-apply" v-if="item.transferWay ===1"><em>快递</em></p>
-            <p class="num-apply" v-if="item.transferWay ===2"><em>自提</em></p>
-            <p class="num-apply" v-if="item.transferWay ===3"><em>送货上门</em></p>
+            <p class="num-apply" @click="goShopDetails(item)"><em>加价</em></p>
           </div>
         </li>
       </ul>
-      <div v-else class="none-good" ref="err_goods">
+      <div v-else class="none-good">
         —— 暂无商品 ——
       </div>
     </div>
-    <div class="page-outer">
-      <el-pagination
-        layout="prev, pager, next"
-        :page-size="pageSize"
-        :current-page.sync=page
-        @current-change="handleCurrentChange"
-        :page-count="pageCount">
-      </el-pagination>
-    </div>
+    <!--<div class="page-outer" v-if="itemList.length>6">-->
+      <!--<el-pagination-->
+        <!--layout="prev, pager, next"-->
+        <!--:page-size="pageSize"-->
+        <!--:page-count="pageCount">-->
+      <!--</el-pagination>-->
+    <!--</div>-->
   </div>
 </template>
 
@@ -55,7 +55,6 @@
     data () {
       return {
         itemList: [],
-        baseUrl: USER.baseUrl,
         page: 1,
         pageCount: 0,
         pageSize: 6
@@ -64,39 +63,29 @@
     methods: {
       getItemList () {
         const data = {
-          typeId: this.typeId || null,
-          pageSize: this.pageSize,
-          pageNo: this.page
+          userId: USER.GetUserID()
         }
-        console.log(data)
-        const url = 'paimai/front/list_products'
+        const url = 'paimai/front/list_bid_pass'
         const ret = (r) => {
           console.log(r)
           if (r.busCode === 200) {
-            this.itemList = []
-            setTimeout(() => {
-              this.itemList = r.data.list
-              this.pageCount = r.data.pageCount
-            }, 100)
+            this.itemList = r.data
+            this.pageCount = r.data.pageCount
           } else {
             this.$alert(r.data)
-            console.log(this.$reg)
           }
         }
-        USER.ajax(url, 'get', data, ret, 30000, false)
+        USER.ajax(url, 'get', data, ret)
       },
       goShopDetails (data) {
         this.$router.push({path: '/shop_details', query: {productId: data.productId}})
-      },
-      handleCurrentChange () {
-        this.getItemList()
       }
     },
     components: {
       CountDown
     },
     props: ['typeId'],
-    created () {
+    mounted () {
       this.getItemList()
     }
   }
@@ -110,13 +99,13 @@
     }
     width: 930px;
     margin: 20px 0 0;
-    overflow: hidden;
+    overflow: visible;
     min-height: 320px;
     .sf-pai-item-list {
       clear: none !important;
       .pai-item {
         float: left;
-        margin: 0 23px 20px 0;
+        margin: 0 26px 20px 0;
         border: 1px solid #eaeaea;
         display: block;
         position: relative;
@@ -132,7 +121,7 @@
           line-height: 180px;
           .pic {
             width: 100%;
-            height: 150px;
+            height: 156px;
           }
           .title {
             white-space: nowrap;
@@ -165,7 +154,6 @@
             line-height: 30px;
             .value {
               color: #d91615;
-              padding-left: 10px;
               font-weight: 700;
             }
             .price-font-small {

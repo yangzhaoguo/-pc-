@@ -1,13 +1,13 @@
 <template>
-  <div style="position: relative">
+  <div>
     <div id="goods" class="sf-item-list-narrow">
       <ul class="sf-pai-item-list" v-if="itemList.length>0">
-        <li v-for="(item , index) in itemList" :key="index" class="pai-item" @click="goShopDetails(item)">
+        <li v-for="(item , index) in itemList" :key="index" class="pai-item">
           <div class="header-section">
             <img v-if="item.showWay==1" class="pic"
                  :src="item.showUrl"
                  :alt="item.productName">
-            <video v-if="item.showWay==2" class="vid"
+            <video v-if="item.showWay==2" class="pic"
                    :src="baseUrl+item.showUrl"
                    :alt="item.productName">
             </video>
@@ -15,35 +15,34 @@
           </div>
           <div class="info-section">
             <p class="price price-current">
-              <span class="label">当前价</span>
+              <span class="label">最终价</span>
               <span class="value"><em class="currency">¥</em><em
                 class="pai-xmpp-current-price price-font-small">{{item.topPrice}} 元</em></span>
-              <span class="bid-tips ">（<em class="pai-xmpp-bid-count">{{item.goPriceNums}}</em>次出价）</span>
+            </p>
+            <p class="price price-current">
+              <span class="label">总价</span>
+              <span class="value"><em class="currency">¥</em><em
+                class="pai-xmpp-current-price price-font-small">{{item.topPrice + 10}} 元</em></span>
             </p>
           </div>
-          <div class="footer-section">
-            <p class="num-auction"><em class="pai-xmpp-viewer-count">剩余时间：</em>
-              <count-down :endTime="item.endSaleDatetime"></count-down>
-            </p>
-            <p class="num-apply" v-if="item.transferWay ===1"><em>快递</em></p>
-            <p class="num-apply" v-if="item.transferWay ===2"><em>自提</em></p>
-            <p class="num-apply" v-if="item.transferWay ===3"><em>送货上门</em></p>
+          <div class="footer-section flex">
+            <p class="num-apply"><em>联系卖家</em></p>
+            <p class="num-apply"><em>取消订单</em></p>
+            <p class="num-apply" @click="goShopDetails(item)"><em>去付款</em></p>
           </div>
         </li>
       </ul>
-      <div v-else class="none-good" ref="err_goods">
+      <div v-else class="none-good">
         —— 暂无商品 ——
       </div>
     </div>
-    <div class="page-outer">
-      <el-pagination
-        layout="prev, pager, next"
-        :page-size="pageSize"
-        :current-page.sync=page
-        @current-change="handleCurrentChange"
-        :page-count="pageCount">
-      </el-pagination>
-    </div>
+    <!--<div class="page-outer" v-if="itemList.length>6">-->
+    <!--<el-pagination-->
+    <!--layout="prev, pager, next"-->
+    <!--:page-size="pageSize"-->
+    <!--:page-count="pageCount">-->
+    <!--</el-pagination>-->
+    <!--</div>-->
   </div>
 </template>
 
@@ -54,7 +53,18 @@
   export default {
     data () {
       return {
-        itemList: [],
+        itemList: [
+          {
+            endSaleDatetime: 1533002596116,
+            goPriceNums: 5,
+            productId: '5b5fb49689788400012c152b',
+            productName: '海澜之家',
+            showUrl: 'http://ope.lingyi365.com:5608/fs/group1/M00/7C/51/o4YBAFtftIWAPDL6AAYcXBYFr8Q029.jpg',
+            showWay: 1,
+            topPrice: 221,
+            transferWay: 1
+          }
+        ],
         baseUrl: USER.baseUrl,
         page: 1,
         pageCount: 0,
@@ -64,41 +74,31 @@
     methods: {
       getItemList () {
         const data = {
-          typeId: this.typeId || null,
-          pageSize: this.pageSize,
+          typeId: this.typeId,
+          pageSize: 6,
           pageNo: this.page
         }
-        console.log(data)
         const url = 'paimai/front/list_products'
         const ret = (r) => {
           console.log(r)
           if (r.busCode === 200) {
-            this.itemList = []
-            setTimeout(() => {
-              this.itemList = r.data.list
-              this.pageCount = r.data.pageCount
-            }, 100)
+            this.itemList = r.data.list
+            this.pageCount = r.data.pageCount
           } else {
             this.$alert(r.data)
-            console.log(this.$reg)
           }
         }
-        USER.ajax(url, 'get', data, ret, 30000, false)
+        USER.ajax(url, 'get', data, ret)
       },
-      goShopDetails (data) {
-        this.$router.push({path: '/shop_details', query: {productId: data.productId}})
-      },
-      handleCurrentChange () {
-        this.getItemList()
+      goShopDetails () {
+        this.$router.push({path: '/payment'})
       }
     },
     components: {
       CountDown
     },
     props: ['typeId'],
-    created () {
-      this.getItemList()
-    }
+    mounted () {}
   }
 </script>
 
@@ -110,7 +110,7 @@
     }
     width: 930px;
     margin: 20px 0 0;
-    overflow: hidden;
+    overflow: visible;
     min-height: 320px;
     .sf-pai-item-list {
       clear: none !important;
@@ -155,9 +155,9 @@
         }
         .info-section {
           color: #999;
-          display: block;
+          display: flex;
+          justify-content: space-around;
           font-size: 12px;
-          padding-left: 13px;
           height: 42px;
           .price {
             padding-top: 10px;
@@ -194,9 +194,12 @@
           .num-apply {
             font-size: 14px;
             color: #999;
-            float: left;
-            width: 78px;
+            flex: 1;
+            border-right: 1px solid #eeeeee;
             text-align: center;
+          }
+          .num-apply:last-child {
+            border-right: none;
           }
         }
       }

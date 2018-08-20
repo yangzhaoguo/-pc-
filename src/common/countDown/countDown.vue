@@ -1,3 +1,4 @@
+<!--单独使用时需要增加异步渲染判断-->
 <template>
     <span :endTime="endTime" :callback="callback" :endText="endText">
         <slot>
@@ -9,13 +10,14 @@
   export default {
     data () {
       return {
-        content: ''
+        content: '00:00:00',
+        timer: null
       }
     },
     props: {
       endTime: {
         type: Number,
-        default: new Date().getTime()
+        default: 0
       },
       endText: {
         type: String,
@@ -26,13 +28,10 @@
         default: () => {}
       }
     },
-    mounted () {
-      this.countdowm(this.endTime)
-    },
     methods: {
       countdowm (timestamp) {
         let self = this
-        let timer = setInterval(function () {
+        self.timer = setInterval(function () {
           let nowTime = new Date()
           let endTime = new Date(timestamp)
           let t = endTime.getTime() - nowTime.getTime()
@@ -56,17 +55,17 @@
             }
             self.content = format
           } else {
-            clearInterval(timer)
+            clearInterval(self.timer)
             self.content = self.endText
-            self._callback()
           }
         }, 1000)
-      },
-      _callback () {
-        if (this.callback && this.callback instanceof Function) {
-          this.callback(...this)
-        }
       }
+    },
+    mounted () {
+      this.countdowm(this.endTime)
+    },
+    beforeDestroy () {
+      clearInterval(this.timer)
     }
   }
 </script>
