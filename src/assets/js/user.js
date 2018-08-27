@@ -54,6 +54,7 @@ export const ajax = (url = '', type = 'POST', data = {}, retCallback, timeout = 
   function closeLoad () {
     if (loadingShow) {
       Loading.service({}).close()
+
     }
   }
 }
