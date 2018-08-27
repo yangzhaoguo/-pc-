@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <div class="header">
-
       <el-header>
         <el-menu
           :defaultActive="defaultActive"
@@ -147,7 +146,7 @@
   @import './assets/css/public.less';
 
   .content {
-    width: 930px;
+    width: 1552px;
     margin: 0 auto;
   }
 

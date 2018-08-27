@@ -17,19 +17,19 @@
               <h3>{{detailData.productName}}</h3>
             </div>
             <div class="pro_box_top_rjs">
-              <table border="1" cellpadding="0" cellspacing="0" width="350">
+              <table border="0" cellpadding="0" cellspacing="0" width="350">
                 <tbody>
+                <!--<tr>-->
+                <!--<td class="title" valign="top" width="127">-->
+                <!--<p>商品编码</p>-->
+                <!--</td>-->
+                <!--<td class="text">-->
+                <!--<p>{{detailData.productId}}</p>-->
+                <!--</td>-->
+                <!--</tr>-->
                 <tr>
                   <td class="title" valign="top" width="127">
-                    <p>商品编码</p>
-                  </td>
-                  <td class="text">
-                    <p>{{detailData.productId}}</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="title" valign="top" width="127">
-                    <p>当前价</p>
+                    <p>当前价:</p>
                   </td>
                   <td class="text" style="color: darkred;">
                     <p>{{detailData.topPrice}}元</p>
@@ -37,7 +37,7 @@
                 </tr>
                 <tr>
                   <td class="title" valign="top" width="127">
-                    <p>出价次数</p>
+                    <p>出价次数:</p>
                   </td>
                   <td class="text">
                     <p>{{detailData.goPriceNums}}次</p>
@@ -45,7 +45,7 @@
                 </tr>
                 <tr>
                   <td class="title" valign="top" width="127">
-                    <p>剩余时间</p>
+                    <p>剩余时间:</p>
                   </td>
                   <td class="text">
                     <p v-if="detailData.endSaleDatetime">
@@ -268,6 +268,8 @@
 </script>
 <style lang="less">
   #shop_details {
+    width: 900px;
+    margin: 0 auto;
     .el-carousel__item h3 {
       color: #475669;
       font-size: 14px;
@@ -294,7 +296,7 @@
       .banner-right {
         padding-left: 45px;
         .pro_box_top_rzi {
-          padding-top: 12px;
+          padding-top: 38px;
           line-height: 26px;
           font-size: 18px;
           color: #AF0C00;
@@ -305,13 +307,13 @@
           font-size: 14px;
           .title {
             width: 95.4pt;
-            border: solid windowtext 1.0pt;
+            border: solid windowtext 0.0pt;
             mso-border-alt: solid windowtext .5pt;
             padding: 0cm 5.4pt 2pt 5.4pt;
           }
           .text {
             width: 225.0pt;
-            border: solid windowtext 1.0pt;
+            border: solid windowtext 0.0pt;
             border-left: none;
             mso-border-left-alt: solid windowtext .5pt;
             mso-border-alt: solid windowtext .5pt;

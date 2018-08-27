@@ -108,7 +108,7 @@
       color: #999999;
     }
     width: 930px;
-    margin: 20px 0 0;
+    margin: 20px auto;
     overflow: hidden;
     min-height: 320px;
     .sf-pai-item-list {

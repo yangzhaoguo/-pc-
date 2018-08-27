@@ -8,7 +8,7 @@
                  :src="item.showUrl"
                  :alt="item.productName">
             <video v-if="item.showWay==2" class="vid"
-                   :src="baseUrl+item.showUrl"
+                   :src="item.showUrl"
                    :alt="item.productName">
             </video>
             <p class="title">{{item.productName}}</p>
@@ -108,7 +108,6 @@
       text-align: center;
       color: #999999;
     }
-    width: 930px;
     margin: 20px 0 0;
     overflow: hidden;
     min-height: 320px;
@@ -116,7 +115,7 @@
       clear: none !important;
       .pai-item {
         float: left;
-        margin: 0 23px 20px 0;
+        margin: 0 12px 20px 12px;
         border: 1px solid #eaeaea;
         display: block;
         position: relative;

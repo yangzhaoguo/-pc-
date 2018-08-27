@@ -42,7 +42,7 @@
       <el-row v-for="(item,index) in vip_list" :key="index" class="vip-list">
         <el-col :span="6">
           <div>
-            <el-radio v-model="vip_type" :label="item._id">
+            <el-radio v-model="vip_type" :label="item._id" :disable="self_vip_data.grade>item.grade">
               {{item.grade}}
             </el-radio>
           </div>
@@ -85,7 +85,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { ajax, GetUserID } from '../../assets/js/user'
+  import { ajax, GetUserID, Payment } from '../../assets/js/user'
 
   export default {
     data () {
@@ -138,6 +138,7 @@
         const url = 'paimai/front/pre_pay'
         const ret = r => {
           console.log(r)
+//          Payment(r)
         }
         ajax(url, 'post', data, ret)
       }

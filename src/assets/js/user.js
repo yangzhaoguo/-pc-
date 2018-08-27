@@ -8,7 +8,7 @@ export const baseUrl = 'http://172.18.114.250:30200/'
 //获取用户token
 export const GetUserToken = () => {
   if (debug) {
-    return 'WZ8azGAUy5a-djIY8SxaBlqe*-384BCCodBOvMmCyiPCuqGbz9LMew..'
+    return 'WZ8azGAUy5a-djIY8SxaBlqe*-384BCCmTPEVXO6V9ebEf*4Ljhv7w..'
   } else {
     return browser().GetUserToken()
   }
@@ -16,7 +16,7 @@ export const GetUserToken = () => {
 //获取用户ID
 export const GetUserID = () => {
   if (debug) {
-    return '57a0136259242e1cd867f28e'
+    return '5ab9a7102d3b4105b491af45'
     // return '5837d3b059242f1c60cf459f'
   } else {
     return browser().GetUserID()
@@ -56,6 +56,15 @@ export const ajax = (url = '', type = 'POST', data = {}, retCallback, timeout = 
       Loading.service({}).close()
     }
   }
+}
+/*支付跳转*/
+
+export const Payment = (r) => {
+  var url = debug ? 'http://172.18.115.100:87/Pages/PcOrderPay.html' : 'https://01.lingyi365.com/payweb/Pages/PcOrderPay.html';
+  window.location.href = url + '?businessTypeCode=56&orderId=' +
+    r.data.orderId + '&title=' + escape('升级保证金') +
+    '&tradeMoney=' + r.data.money + '&receiverId=21dc2f8e-6e57-4eb5-afbb-a6910157dc21&userId=57b27e9759242e14380fefea' +
+    '&token=' + GetUserToken() + '&backUrl=' + encodeURIComponent(location.href)
 }
 
 /*eslint no-extend-native: ["error", { "exceptions": ["Date"] }]*/
