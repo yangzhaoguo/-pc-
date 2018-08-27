@@ -85,10 +85,10 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { ajax, GetUserID, Payment } from '../../assets/js/user'
+  import {ajax, GetUserID, Payment} from '../../assets/js/user'
 
   export default {
-    data () {
+    data() {
       return {
         vip_type: '',
         vip_list: [],
@@ -97,7 +97,7 @@
       }
     },
     methods: {
-      getList () {
+      getList() {
         const url = 'paimai/front/list_gurantee_money'
         const ret = (r) => {
           console.log(r)
@@ -109,7 +109,7 @@
         }
         ajax(url, 'get', {}, ret)
       },
-      get_self_vip_data () {
+      get_self_vip_data() {
         const data = {
           userId: GetUserID
         }
@@ -125,7 +125,7 @@
           ajax(url, 'get', data, ret)
         }
       },
-      setVipType () {
+      setVipType() {
         if (this.vip_type === '') {
           this.$message.error('请选择vip等级')
           return false
@@ -143,12 +143,12 @@
         ajax(url, 'post', data, ret)
       }
     },
-    created () {
+    created() {
       this.getList()
       this.get_self_vip_data()
     },
     watch: {
-      vip_type () {
+      vip_type() {
         this.vip_list.find((item) => {
           if (item.typeId === this.vip_type) {
             this.money = item.holdinMoney
@@ -167,26 +167,32 @@
   .content {
     text-align: center;
     border: 1px solid #f1f1f1;
-    .title span {
-      color: #5a6288;
-      font-weight: 500;
-    }
-    .vip-list {
-      border-bottom: 1px solid #f1f1f1;
-      padding-top: 12px;
-      padding-bottom: 12px;
-    }
-    .vip-list:last-child {
-      border-bottom: none;
-    }
+
+  .title span {
+    color: #5a6288;
+    font-weight: 500;
+  }
+
+  .vip-list {
+    border-bottom: 1px solid #f1f1f1;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .vip-list:last-child {
+    border-bottom: none;
+  }
+
   }
 
   .button {
     margin-top: 60px;
-    button {
-      display: block;
-      width: 140px;
-      margin: 0 auto;
-    }
+
+  button {
+    display: block;
+    width: 140px;
+    margin: 0 auto;
+  }
+
   }
 </style>
