@@ -138,7 +138,7 @@
         const url = 'paimai/front/pre_pay'
         const ret = r => {
           console.log(r)
-//          Payment(r)
+          Payment(r)
         }
         ajax(url, 'post', data, ret)
       }

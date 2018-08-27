@@ -60,10 +60,11 @@ export const ajax = (url = '', type = 'POST', data = {}, retCallback, timeout = 
 /*支付跳转*/
 
 export const Payment = (r) => {
-  var url = debug ? 'http://172.18.115.100:87/Pages/PcOrderPay.html' : 'https://01.lingyi365.com/payweb/Pages/PcOrderPay.html';
+  var url = debug ? 'http://172.18.115.100:87/Pages/PcOrderPay.html' : 'https://01.lingyi365.com/payweb/Pages/PcOrderPay.html'
+  var receiverId = '21dc2f8e-6e57-4eb5-afbb-a6910157dc21'
   window.location.href = url + '?businessTypeCode=56&orderId=' +
     r.data.orderId + '&title=' + escape('升级保证金') +
-    '&tradeMoney=' + r.data.money + '&receiverId=21dc2f8e-6e57-4eb5-afbb-a6910157dc21&userId=57b27e9759242e14380fefea' +
+    '&tradeMoney=' + r.data.money + '&receiverId=' + receiverId +
     '&token=' + GetUserToken() + '&backUrl=' + encodeURIComponent(location.href)
 }
 
