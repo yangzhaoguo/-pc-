@@ -96,6 +96,7 @@ Date.prototype.Format = function (fmt) {
 //去除字符串两边空格
 export function Trim (str) {
   return str.replace(/(^\s*)|(\s*$)/g, '')
+
 }
 
 //判断是否位数字
