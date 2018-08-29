@@ -7,7 +7,7 @@
             <img v-if="item.showWay==1" class="pic"
                  :src="item.showUrl"
                  :alt="item.productName">
-            <video v-if="item.showWay==2" class="vid"
+            <video v-if="item.showWay==2" class="pic" style="width: 278px"
                    :src="item.showUrl"
                    :alt="item.productName">
             </video>

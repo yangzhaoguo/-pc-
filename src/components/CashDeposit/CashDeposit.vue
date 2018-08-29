@@ -42,7 +42,7 @@
       <el-row v-for="(item,index) in vip_list" :key="index" class="vip-list">
         <el-col :span="6">
           <div>
-            <el-radio v-model="vip_type" :label="item._id" :disable="self_vip_data.grade>item.grade">
+            <el-radio v-model="vip_type" :label="item._id" :disabled="self_vip_data.grade>=item.grade">
               {{item.grade}}
             </el-radio>
           </div>
@@ -100,7 +100,6 @@
       getList () {
         const url = 'paimai/front/list_gurantee_money'
         const ret = (r) => {
-          console.log(r)
           if (r.busCode === 200) {
             this.vip_list = r.data
           } else {
@@ -110,11 +109,9 @@
         ajax(url, 'get', {}, ret)
       },
       get_self_vip_data () {
-        const data = {
-          userId: GetUserID
-        }
-        const url = 'paimai/front/get_user_gurantee_rule'
+        const url = 'paimai/front/get_user_gurantee_rule?userId=' + GetUserID()
         const ret = (r) => {
+          console.log(r)
           if (r.busCode === 200) {
             if (r.busCode !== 420) {
               this.self_vip_data = r.data
@@ -122,8 +119,8 @@
           } else {
             this.$message.error(r.data)
           }
-          ajax(url, 'get', data, ret)
         }
+        ajax(url, 'get', {}, ret)
       },
       setVipType () {
         if (this.vip_type === '') {
@@ -134,11 +131,11 @@
           guranteeId: this.vip_type,
           userId: GetUserID()
         }
-        console.log(data)
         const url = 'paimai/front/pre_pay'
         const ret = r => {
           console.log(r)
-          Payment(r)
+          var enterpriseId = '21dc2f8e-6e57-4eb5-afbb-a6910157dc21'
+          Payment(r, enterpriseId)
         }
         ajax(url, 'post', data, ret)
       }
@@ -146,6 +143,20 @@
     created () {
       this.getList()
       this.get_self_vip_data()
+      if (this.$route.query.payId && this.$route.query.payId !== '') {
+        const data = {
+          userId: GetUserID(),
+          payId: this.$route.query.payId
+        }
+        const ret = r => {
+          console.log(r)
+          if (r.busCode === 200) {
+            this.$router.push({path: '/cash_deposit'})
+          }
+        }
+        const url = 'paimai/front/notice_check_pay_result'
+        ajax(url, 'POST', data, ret)
+      }
     },
     watch: {
       vip_type () {
@@ -160,6 +171,11 @@
 </script>
 
 <style scoped lang="less">
+  #cashDeposit {
+    width: 930px;
+    margin: auto;
+  }
+
   .top {
     padding: 30px 0 30px 0;
   }
@@ -167,26 +183,32 @@
   .content {
     text-align: center;
     border: 1px solid #f1f1f1;
+
     .title span {
       color: #5a6288;
       font-weight: 500;
     }
+
     .vip-list {
       border-bottom: 1px solid #f1f1f1;
       padding-top: 12px;
       padding-bottom: 12px;
     }
+
     .vip-list:last-child {
       border-bottom: none;
     }
+
   }
 
   .button {
     margin-top: 60px;
+
     button {
       display: block;
       width: 140px;
       margin: 0 auto;
     }
+
   }
 </style>

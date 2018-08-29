@@ -12,6 +12,11 @@ import Fali from '@/components/MyStatus/fail'
 import Pass from '@/components/MyStatus/pass'
 import Success from '@/components/MyStatus/success'
 import Payment from '@/components/Payment/Payment'
+import IndentDaiZhiFu from '@/components/MyIndent/daizhifu'
+import IndentDaiFaHuo from '@/components/MyIndent/daifahuo'
+import IndentDaiShouHuo from '@/components/MyIndent/daishouhuo'
+import IndentDaiPingJia from '@/components/MyIndent/daipingjia'
+import IndentYipingJia from '@/components/MyIndent/yipingjia'
 
 Vue.use(Router)
 
@@ -57,7 +62,29 @@ export default new Router({
     },
     {
       path: '/my_indext',
-      component: MyIndent
+      component: MyIndent,
+      children: [
+        {
+          path: '/my_indext/daizhifu',
+          component: IndentDaiZhiFu
+        },
+        {
+          path: '/my_indext/daifahuo',
+          component: IndentDaiFaHuo
+        },
+        {
+          path: '/my_indext/daishouhuo',
+          component: IndentDaiShouHuo
+        },
+        {
+          path: '/my_indext/daipingjia',
+          component: IndentDaiPingJia
+        },
+        {
+          path: '/my_indext/yipingjia',
+          component: IndentYipingJia
+        }
+      ]
     },
     {
       path: '/cash_deposit',

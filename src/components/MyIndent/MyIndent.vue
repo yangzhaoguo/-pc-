@@ -9,8 +9,8 @@
                    :name="item.typeId"
                    :label="item.typeName"
                    :key="index">
-        <Goods></Goods>
       </el-tab-pane>
+      <router-view/>
     </el-tabs>
   </div>
 </template>
@@ -28,14 +28,31 @@
           {typeName: '待发货', status: 2},
           {typeName: '待收货', status: 3},
           {typeName: '待评价', status: 4},
-          {typeName: '已评价', status: 5},
-          {typeName: '退款', status: 6}
+          {typeName: '已评价', status: 5}
         ]
       }
     },
     methods: {
       handleClick (tab) {
-        this.$refs.tabRef[tab.index - 1].getItemList()
+        switch (tab.index) {
+          case '0':
+            this.$router.push({path: '/my_indext/daizhifu'})
+            break
+          case '1':
+            this.$router.push({path: '/my_indext/daifahuo'})
+            break
+          case '2':
+            this.$router.push({path: '/my_indext/daishouhuo'})
+            break
+          case '3':
+            this.$router.push({path: '/my_indext/daipingjia'})
+            break
+          case '4':
+            this.$router.push({path: '/my_indext/yipingjia'})
+            break
+          default:
+            return false
+        }
       },
       getTypeList () {
         const url = 'paimai/front/list_product_type'
@@ -52,6 +69,24 @@
     },
     components: {
       Goods
+    },
+    created () {
+      switch (this.$route.path) {
+        case '/my/bidding':
+          this.activeName = '0'
+          break
+        case '/my/pass':
+          this.activeName = '1'
+          break
+        case '/my/fail':
+          this.activeName = '2'
+          break
+        case '/my/success':
+          this.activeName = '3'
+          break
+        default:
+          return false
+      }
     },
     mounted () {
     }

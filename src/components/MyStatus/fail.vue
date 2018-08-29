@@ -3,12 +3,12 @@
     <div id="goods" class="sf-item-list-narrow">
       <ul class="sf-pai-item-list" v-if="itemList.length>0">
         <li v-for="(item , index) in itemList" :key="index" class="pai-item">
-          <div class="header-section">
+          <div class="header-section"  @click="goShopDetails(item)">
             <img v-if="item.showWay==1" class="pic"
                  :src="item.showUrls[0]"
                  :alt="item.productName">
             <video v-if="item.showWay==2" class="pic"
-                   :src="baseUrl+item.showUrl"
+                   :src="item.showUrl"
                    :alt="item.productName">
             </video>
             <p class="title">{{item.productName}}</p>
@@ -74,6 +74,9 @@
       },
       goHome () {
         this.$router.push({path: '/home'})
+      },
+      goShopDetails (data) {
+        this.$router.push({path: '/shop_details', query: {productId: data.productId}})
       }
     },
     components: {
@@ -92,7 +95,6 @@
       text-align: center;
       color: #999999;
     }
-    width: 930px;
     margin: 20px 0 0;
     overflow: visible;
     min-height: 320px;

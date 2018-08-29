@@ -45,7 +45,7 @@
                     <p>运费</p>
                   </td>
                   <td class="text">
-                    <p>{{detailData.goPriceNums}}次</p>
+                    <p>{{detailData.goPriceNums}}元</p>
                   </td>
                 </tr>
                 <!--<tr>-->
@@ -98,6 +98,23 @@
     <div class="select-address">
       <select-address :showHeader=false></select-address>
     </div>
+    <div class="flex flex-end" style="margin-top: 22px;font-size: 16px;">
+      <div style="margin-right: 12px;line-height: 38px">发票类型</div>
+      <el-select v-model="invoiceInfo" placeholder="无需发票">
+        <el-option
+          label="无需发票"
+          value="无需发票">
+        </el-option>
+        <el-option
+          label="明细（纸质）个人"
+          value="明细（纸质）个人">
+        </el-option>
+        <el-option
+          label="明细（电子）个人"
+          value="明细（电子）个人">
+        </el-option>
+      </el-select>
+    </div>
     <div class="foot flex">
       <div>
         实付款：￥<span class="text">{{detailData.topPrice + detailData.goPriceNums}}</span>
@@ -130,6 +147,7 @@
         priceListPageNo: 1,     //出价当前页码
         priceListCount: 10,     //出价当前页码
         priceList: [],          //出价列表
+        invoiceInfo: '无需发票',  //发票类型
         detailData: {
           description: '方法',
           endSaleDatetime: 1535439983496,
@@ -146,9 +164,6 @@
       }
     },
     methods: {
-      handleClick (tab, event) {
-//        console.log(tab, event)
-      },
       getDetailProduct () {
         const url = 'paimai/front/detail_product'
         const ret = r => {
@@ -187,7 +202,7 @@
       selectAddress
     },
     created () {
-//      this.init()
+      this.getDetailProduct()
     }
   }
 </script>
@@ -212,6 +227,8 @@
 </style>
 <style scoped lang="less">
   #shop_details {
+    width: 900px;
+    margin: auto;
     .header-section {
       border-bottom: 1px solid #eeeeee;
       .banner {
@@ -232,13 +249,13 @@
           font-size: 14px;
           .title {
             width: 95.4pt;
-            border: solid windowtext 1.0pt;
+            border: solid windowtext 0.0pt;
             mso-border-alt: solid windowtext .5pt;
             padding: 0cm 5.4pt 2pt 5.4pt;
           }
           .text {
             width: 225.0pt;
-            border: solid windowtext 1.0pt;
+            border: solid windowtext 0.0pt;
             border-left: none;
             mso-border-left-alt: solid windowtext .5pt;
             mso-border-alt: solid windowtext .5pt;
@@ -250,7 +267,7 @@
     .foot {
       justify-content: flex-end;
       padding-right: 12px;
-      margin-top: 30px;
+      margin-top: 22px;
       .text {
         font-size: 22px;
         color: red;

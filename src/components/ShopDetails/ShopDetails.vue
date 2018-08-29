@@ -4,11 +4,15 @@
       <el-col :span="24">
         <el-col :span="12">
           <div class="banner">
-            <el-carousel height="250px">
+            <el-carousel height="250px" v-if="detailData.showWay===1">
               <el-carousel-item v-for="item in detailData.showUrls" :key="item">
-                <img style="width: 100%;height: 250px" :src="item" alt="">
+                <a :href="item" target="view_window"><img style="width: 100%;height: 250px" :src="item" alt=""></a>
               </el-carousel-item>
             </el-carousel>
+            <div v-if="detailData.showWay===2" style="text-align: center">
+                <video controls style="height: 250px;margin: auto;"  :src="detailData.showUrls[0]">
+                </video>
+            </div>
           </div>
         </el-col>
         <el-col :span="12">

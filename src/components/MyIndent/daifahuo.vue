@@ -1,5 +1,6 @@
 <template>
   <div>
+    待发货
     <div id="goods" class="sf-item-list-narrow">
       <ul class="sf-pai-item-list" v-if="itemList.length>0">
         <li v-for="(item , index) in itemList" :key="index" class="pai-item">
@@ -8,7 +9,7 @@
                  :src="item.showUrl"
                  :alt="item.productName">
             <video v-if="item.showWay==2" class="pic"
-                   :src="baseUrl+item.showUrl"
+                   :src="item.showUrl "
                    :alt="item.productName">
             </video>
             <p class="title">{{item.productName}}</p>
@@ -17,17 +18,25 @@
             <p class="price price-current">
               <span class="label">最终价</span>
               <span class="value"><em class="currency">¥</em><em
-                class="pai-xmpp-current-price price-font-small">{{item.topPrice}} 元</em></span>
+                class="pai-xmpp-current-price price-font-small">{{item.orderMoney}} 元</em></span>
             </p>
             <p class="price price-current">
               <span class="label">总价</span>
               <span class="value"><em class="currency">¥</em><em
-                class="pai-xmpp-current-price price-font-small">{{item.topPrice + 10}} 元</em></span>
+                class="pai-xmpp-current-price price-font-small">{{item.orderMoney + item.transferMoney}} 元</em></span>
             </p>
           </div>
           <div class="footer-section flex">
-            <p class="num-apply"><em>联系卖家</em></p>
-            <p class="num-apply"><em>取消订单</em></p>
+            <p class="num-apply">
+              <em v-if="item.transferWay===1">快递</em>
+              <em v-if="item.transferWay===2">自取</em>
+              <em v-if="item.transferWay===2">送货上门</em>
+            </p>
+            <p class="num-apply">
+              <em v-if="item.transferMoneyWay===1">包邮</em>
+              <em v-if="item.transferMoneyWay===2">运费预付</em>
+              <em v-if="item.transferMoneyWay===2">运费到付</em>
+            </p>
             <p class="num-apply" @click="goShopDetails(item)"><em>去付款</em></p>
           </div>
         </li>
@@ -62,15 +71,14 @@
     methods: {
       getItemList () {
         const data = {
-          typeId: this.typeId,
-          pageSize: 6,
-          pageNo: this.page
+          userId: USER.GetUserID(),
+          orderStatus: 0   //未支付状态
         }
-        const url = 'paimai/front/list_products'
+        const url = 'paimai/front/list_orders'
         const ret = (r) => {
           console.log(r)
           if (r.busCode === 200) {
-            this.itemList = r.data.list
+            this.itemList = r.data
             this.pageCount = r.data.pageCount
           } else {
             this.$alert(r.data)
@@ -86,8 +94,9 @@
     components: {
       CountDown
     },
-    props: ['typeId'],
-    mounted () {}
+    created () {
+      this.getItemList()
+    }
   }
 </script>
 

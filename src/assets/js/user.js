@@ -2,13 +2,13 @@ import axios from 'axios'
 import { Loading } from 'element-ui'
 
 const debug = true
-
-export const baseUrl = 'http://172.18.114.250:30200/'
+export let baseUrl = debug ? 'http://172.18.114.250:30200/' : 'https://01.lingyi365.com:443'
+// export let baseUrl = "https://01.lingyi365.com:443";
 
 //获取用户token
 export const GetUserToken = () => {
   if (debug) {
-    return 'WZ8azGAUy5a-djIY8SxaBlqe*-384BCCmTPEVXO6V9ebEf*4Ljhv7w..'
+    return 'WZ8azGAUy5a-djIY8SxaBlqe*-384BCCqRXD-JFMOriFx-rPcZ5KrQ..'
   } else {
     return browser().GetUserToken()
   }
@@ -16,7 +16,7 @@ export const GetUserToken = () => {
 //获取用户ID
 export const GetUserID = () => {
   if (debug) {
-    return '5ab9a7102d3b4105b491af45'
+    return '5ab9a7102d3b4105b491af45'  //yzg
     // return '5837d3b059242f1c60cf459f'
   } else {
     return browser().GetUserID()
@@ -40,8 +40,9 @@ export const ajax = (url = '', type = 'POST', data = {}, retCallback, timeout = 
   axios(opaction).then((response) => {
     closeLoad()
     retCallback(response.data)
-  }, () => {
+  }, (err) => {
     closeLoad()
+    console.log(err)
     alert('请求失败')
   })
 
@@ -59,15 +60,21 @@ export const ajax = (url = '', type = 'POST', data = {}, retCallback, timeout = 
 }
 /*支付跳转*/
 
-export const Payment = (r) => {
+export const Payment = (r, receiverId) => {
+  let receiver = ''
+  if (!receiverId) {
+    receiver = r.receiverId
+  } else {
+    receiver = receiverId
+  }
   var url = debug ? 'http://172.18.115.100:87/Pages/PcOrderPay.html' : 'https://01.lingyi365.com/payweb/Pages/PcOrderPay.html'
-  var receiverId = '21dc2f8e-6e57-4eb5-afbb-a6910157dc21'
   window.location.href = url + '?businessTypeCode=56&orderId=' +
     r.data.orderId + '&title=' + escape('升级保证金') +
-    '&tradeMoney=' + r.data.money + '&receiverId=' + receiverId +
+    '&tradeMoney=' + r.data.money + '&receiverId=' + receiver +
+    '&userId=' + GetUserID() +
     '&token=' + GetUserToken() + '&backUrl=' + encodeURIComponent(location.href)
 }
-
+// "http://172.18.115.100:87/Pages/PcOrderPay.html?businessTypeCode=56&orderId=00397548302&title=%u5347%u7EA7%u4FDD%u8BC1%u91D1&tradeMoney=42&receiverId=21dc2f8e-6e57-4eb5-afbb-a6910157dc21&token=WZ8azGAUy5a-djIY8SxaBlqe*-384BCCmTPEVXO6V9ebEf*4Ljhv7w..&userId=5ab9a7102d3b4105b491af45&backUrl=http%3A%2F%2Flocalhost%3A8080%2F%23%2Fcash_deposit%3Fok%3D1"
 /*eslint no-extend-native: ["error", { "exceptions": ["Date"] }]*/
 Date.prototype.Format = function (fmt) {
   let o = {

@@ -72,7 +72,7 @@
             this.$router.push({path: '/cash_deposit'})
             break
           case '4-4':
-            this.$router.push({path: '/my_indext'})
+            this.$router.push({path: '/my_indext/daiZhiFu'})
             break
           case '4-5':
             this.$router.push({path: '/collection'})
@@ -97,7 +97,7 @@
           case '/cash_deposit':
             this.defaultActive = '4-3'
             break
-          case '/my_indext':
+          case '/my_indext/daiZhiFu':
             this.defaultActive = '4-4'
             break
           case '/collection':

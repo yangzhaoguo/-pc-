@@ -8,7 +8,7 @@
                  :src="item.showUrls[0]"
                  :alt="item.productName">
             <video v-if="item.showWay==2" class="pic"
-                   :src="baseUrl+item.showUrl"
+                   :src="item.showUrl"
                    :alt="item.productName">
             </video>
             <p class="title">{{item.productName}}</p>
@@ -97,7 +97,6 @@
       text-align: center;
       color: #999999;
     }
-    width: 930px;
     margin: 20px 0 0;
     overflow: visible;
     min-height: 320px;
