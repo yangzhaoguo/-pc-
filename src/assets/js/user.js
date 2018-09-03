@@ -59,12 +59,13 @@ export const ajax = (url = '', type = 'POST', data = {}, retCallback, timeout = 
   }
 }
 /*支付跳转*/
-export const Payment = (orderId, money, title, userId = GetUserID(), receiverId = '21dc2f8e-6e57-4eb5-afbb-a6910157dc21', callBackUrl = location.href) => {
-  const url = debug ? 'http://172.18.115.100:87/Pages/PcOrderPay.html' : 'https://01.lingyi365.com/payweb/Pages/PcOrderPay.html'
+export const Payment = (orderId, money, title, userId, receiverId = '21dc2f8e-6e57-4eb5-afbb-a6910157dc21', callBackUrl = location.href) => {
+  const url = debug ? 'http://172.18.115.100:87/Pages/PcOrderPay.html' : 'https://01.lingyi365.com/payweb/Pages/PcOrderPay.html';
+  const UId = userId || GetUserID();
   window.location.href = url + '?businessTypeCode=56&orderId=' +
     orderId + '&title=' + escape(title) +
     '&tradeMoney=' + money + '&receiverId=' + receiverId +
-    '&userId=' + userId +
+    '&userId=' + UId +
     '&token=' + GetUserToken() + '&backUrl=' + encodeURIComponent(callBackUrl)
 }
 // "http://172.18.115.100:87/Pages/PcOrderPay.html?businessTypeCode=56&orderId=00397548302&title=%u5347%u7EA7%u4FDD%u8BC1%u91D1&tradeMoney=42&receiverId=21dc2f8e-6e57-4eb5-afbb-a6910157dc21&token=WZ8azGAUy5a-djIY8SxaBlqe*-384BCCmTPEVXO6V9ebEf*4Ljhv7w..&userId=5ab9a7102d3b4105b491af45&backUrl=http%3A%2F%2Flocalhost%3A8080%2F%23%2Fcash_deposit%3Fok%3D1"
