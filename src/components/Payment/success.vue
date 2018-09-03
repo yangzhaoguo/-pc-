@@ -17,6 +17,7 @@
         </el-col>
         <el-col :span="12">
           <div class="banner-right">
+
             <div class="pro_box_top_rjs">
               <table border="1" cellpadding="0" cellspacing="0" width="400">
                 <tbody>
