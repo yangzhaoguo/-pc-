@@ -133,7 +133,7 @@
         }
         const url = 'paimai/front/pre_pay'
         const ret = r => {
-          Payment(r.data.orderId, r.data.money, '升级保证金', false)
+          Payment(r.data.orderId, r.data.money, '升级保证金')
         }
         ajax(url, 'post', data, ret)
       }

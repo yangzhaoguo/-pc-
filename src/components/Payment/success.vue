@@ -173,14 +173,14 @@
         const url = 'paimai/front/submit_order'
         const ret = r => {
           console.log(r)
-          if (r.busCode === 200) {
+          if (r.busCode !== 200) {
             Payment(
               r.data.orderId,
               r.data.orderMoney,
               this.detailData.productInfo.productName,
               null,
               r.data.receiveId,
-              this.callBackUrl + '/payment_success'
+              this.callBackUrl
             )
           }
           this.$message.success(r.data)

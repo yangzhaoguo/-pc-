@@ -48,6 +48,9 @@
     },
     mounted () {
       this.getTypeList()
+    },
+    created () {
+      localStorage.setItem('url', location.href)
     }
   }
 </script>
