@@ -8,7 +8,7 @@
                  :src="item.showUrls[0]"
                  :alt="item.productName">
             <video v-if="item.showWay==2" class="pic"
-                   :src="item.showUrl"
+                   :src="item.showUrls[0]"
                    :alt="item.productName">
             </video>
             <p class="title">{{item.productName}}</p>

@@ -14,7 +14,7 @@
         <el-table-column
           label="收货人"
           align="center"
-          :width="showHeader?80:120">
+          :width="showHeader?96:120">
           <template slot-scope="scope">
             <div class="flex">
               <div slot="reference" class="name-wrapper" v-if="!showHeader">
@@ -198,7 +198,14 @@
         })
       }
     },
-    watch: {},
+    watch: {
+      addressId () {
+        var active = this.tableData.find((value, index, arr) => {
+          return value._id === this.addressId
+        })
+        this.$emit('postAddressData', active)
+      }
+    },
     mounted () {
       this.getAddressList()
     }

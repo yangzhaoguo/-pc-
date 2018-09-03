@@ -133,9 +133,7 @@
         }
         const url = 'paimai/front/pre_pay'
         const ret = r => {
-          console.log(r)
-          var enterpriseId = '21dc2f8e-6e57-4eb5-afbb-a6910157dc21'
-          Payment(r, enterpriseId)
+          Payment(r.data.orderId, r.data.money, '升级保证金', false)
         }
         ajax(url, 'post', data, ret)
       }

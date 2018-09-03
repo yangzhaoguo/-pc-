@@ -1,27 +1,31 @@
 <template>
-  <div id="shop_details">
+  <div id="shop_details" v-if="detailData!==0">
     <el-row class="header-section">
       <el-col :span="24">
         <el-col :span="12">
-          <div class="banner">
+          <div class="banner" v-if="detailData.productInfo.showWay===1">
             <el-carousel height="250px">
-              <el-carousel-item v-for="item in detailData.showUrls" :key="item">
+              <el-carousel-item v-for="(item,index) in detailData.productInfo.showUrls" :key="index">
                 <img style="width: 100%;height: 250px" :src="item" alt="">
               </el-carousel-item>
             </el-carousel>
+          </div>
+          <div v-if="detailData.productInfo.showWay===2" style="text-align: center">
+            <video controls style="height: 250px;margin: auto;" :src="detailData.productInfo.showUrls[0]">
+            </video>
           </div>
         </el-col>
         <el-col :span="12">
           <div class="banner-right">
             <div class="pro_box_top_rjs">
-              <table border="1" cellpadding="0" cellspacing="0" width="350">
+              <table border="1" cellpadding="0" cellspacing="0" width="400">
                 <tbody>
                 <tr>
                   <td class="title" valign="top" width="127">
                     <p>订单号</p>
                   </td>
                   <td class="text">
-                    <p>{{detailData.productId}}</p>
+                    <p>{{detailData.orderInfo.orderId}}</p>
                   </td>
                 </tr>
                 <tr>
@@ -29,7 +33,7 @@
                     <p>商品名称</p>
                   </td>
                   <td class="text">
-                    <p>{{detailData.productName}}</p>
+                    <p>{{detailData.productInfo.productName}}</p>
                   </td>
                 </tr>
                 <tr>
@@ -37,7 +41,7 @@
                     <p>成交价格</p>
                   </td>
                   <td class="text" style="color: darkred;">
-                    <p>{{detailData.topPrice}}元</p>
+                    <p>{{detailData.orderInfo.orderMoney}}元</p>
                   </td>
                 </tr>
                 <tr>
@@ -45,7 +49,7 @@
                     <p>运费</p>
                   </td>
                   <td class="text">
-                    <p>{{detailData.goPriceNums}}元</p>
+                    <p>{{detailData.productInfo.transferMoney || 0}}元</p>
                   </td>
                 </tr>
                 <!--<tr>-->
@@ -64,17 +68,7 @@
                   </td>
                   <td class="text">
                     <p>
-                      123
-                    </p>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="title" valign="top" width="127">
-                    <p>下单时间</p>
-                  </td>
-                  <td class="text">
-                    <p>
-                      123
+                      {{detailData.orderInfo.orderUserId}}
                     </p>
                   </td>
                 </tr>
@@ -84,7 +78,7 @@
                   </td>
                   <td class="text">
                     <p>
-                      123
+                      {{detailData.orderInfo.shopId}}
                     </p>
                   </td>
                 </tr>
@@ -96,7 +90,7 @@
       </el-col>
     </el-row>
     <div class="select-address">
-      <select-address :showHeader=false></select-address>
+      <select-address :showHeader=false @postAddressData="postAddressData"></select-address>
     </div>
     <div class="flex flex-end" style="margin-top: 22px;font-size: 16px;">
       <div style="margin-right: 12px;line-height: 38px">发票类型</div>
@@ -117,15 +111,15 @@
     </div>
     <div class="foot flex">
       <div>
-        实付款：￥<span class="text">{{detailData.topPrice + detailData.goPriceNums}}</span>
+        实付款：￥<span class="text">{{detailData.orderInfo.orderMoney + detailData.productInfo.transferMoney || 0}}</span>
       </div>
-      <el-button type="primary">提交订单</el-button>
+      <el-button type="primary" @click="addCollection">提交订单</el-button>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  import { ajax, GetUserID } from '../../assets/js/user'
+  import { ajax, Payment } from '../../assets/js/user'
   import PingLun from '../../common/pinglun/pinglun.vue'
   import PingLunList from '../../common/pinglun/list.vue'
   import JingPaiChuJia from '../../common/jingpai/jingpai.vue'
@@ -142,54 +136,52 @@
         commentList: [],        //评论列表
         commentPageNo: 1,        //评论当前页码
         commentCount: 10,        //评论总数
-        AuctionDidVisi: false,  //出价dialog
         AuctionDidPrice: 0,     //拍卖价格
         priceListPageNo: 1,     //出价当前页码
         priceListCount: 10,     //出价当前页码
         priceList: [],          //出价列表
         invoiceInfo: '无需发票',  //发票类型
-        detailData: {
-          description: '方法',
-          endSaleDatetime: 1535439983496,
-          goPriceNums: 3,
-          incrementAmount: [232],
-          priceOfStart: 11,
-          productId: '5b5ab5c51fd5ba0001548f51',
-          productName: '上海之珠',
-          showUrls: ['http://ope.lingyi365.com:5608/fs/group1/M00/7B/08/o4YBAFtatcGAcCUbAAJmkzxCpqg069.jpg'],
-          showWay: 1,
-          topPrice: 310,
-          transferWay: 1
-        }          //单品详情
+        detailData: 0,          //单品详情
+        address: '',
+        telphone: ''
       }
     },
     methods: {
       getDetailProduct () {
-        const url = 'paimai/front/detail_product'
+        const url = 'paimai/front/detail_order'
         const ret = r => {
           console.log('单品详情----------------')
           console.log(r)
           if (r.busCode === 200) {
-            this.detailData = r.data
+            this.$set(this, 'detailData', r.data)
           } else {
             this.$message.error(r.data)
           }
+          console.log(this.detailData)
         }
-        ajax(url, 'get', {productId: this.$route.query.productId}, ret, 30000, false)
-      },
-      openActionDid () {
-        this.AuctionDidVisi = true
+        console.log(this.$route.query.orderId)
+        ajax(url, 'get', {orderId: this.$route.query.orderId}, ret, 30000, false)
       },
       addCollection () {
         const data = {
-          productId: this.$route.query.productId,
-          userId: GetUserID()
+          address: this.address,
+          invoiceInfo: this.invoiceInfo,
+          orderId: this.$route.query.orderId,
+          telphone: this.telphone
         }
-        const url = 'paimai/front/add_my_collection'
+        const url = 'paimai/front/submit_order'
         const ret = r => {
+          console.log(r)
+          if (r.busCode === 200) {
+
+          }
           this.$message.success(r.data)
         }
         ajax(url, 'post', data, ret)
+      },
+      postAddressData (data) {
+        this.address = data.region + ' ' + data.detailAddress
+        this.telphone = data.telephone
       }
     },
     components: {
