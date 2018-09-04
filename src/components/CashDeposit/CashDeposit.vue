@@ -85,10 +85,10 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { ajax, GetUserID, Payment } from '../../assets/js/user'
+  import {ajax, GetUserID, Payment} from '../../assets/js/user'
 
   export default {
-    data () {
+    data() {
       return {
         vip_type: '',
         vip_list: [],
@@ -97,18 +97,18 @@
       }
     },
     methods: {
-      getList () {
-        const url = 'paimai/front/list_gurantee_money'
+      getList() {
+        const url = 'paimai/front/list_gurantee_money';
         const ret = (r) => {
           if (r.busCode === 200) {
             this.vip_list = r.data
           } else {
             this.$message.error(r.data)
           }
-        }
+        };
         ajax(url, 'get', {}, ret)
       },
-      get_self_vip_data () {
+      get_self_vip_data() {
         const url = 'paimai/front/get_user_gurantee_rule?userId=' + GetUserID()
         const ret = (r) => {
           console.log(r)
@@ -119,45 +119,45 @@
           } else {
             this.$message.error(r.data)
           }
-        }
+        };
         ajax(url, 'get', {}, ret)
       },
-      setVipType () {
+      setVipType() {
         if (this.vip_type === '') {
-          this.$message.error('请选择vip等级')
+          this.$message.error('请选择vip等级');
           return false
         }
         const data = {
           guranteeId: this.vip_type,
           userId: GetUserID()
-        }
-        const url = 'paimai/front/pre_pay'
+        };
+        const url = 'paimai/front/pre_pay';
         const ret = r => {
           Payment(r.data.orderId, r.data.money, '升级保证金')
-        }
+        };
         ajax(url, 'post', data, ret)
       }
     },
-    created () {
-      this.getList()
-      this.get_self_vip_data()
+    created() {
+      this.getList();
+      this.get_self_vip_data();
       if (this.$route.query.payId && this.$route.query.payId !== '') {
         const data = {
           userId: GetUserID(),
           payId: this.$route.query.payId
         }
         const ret = r => {
-          console.log(r)
+          console.log(r);
           if (r.busCode === 200) {
             this.$router.push({path: '/cash_deposit'})
           }
         }
-        const url = 'paimai/front/notice_check_pay_result'
+        const url = 'paimai/front/notice_check_pay_result';
         ajax(url, 'POST', data, ret)
       }
     },
     watch: {
-      vip_type () {
+      vip_type() {
         this.vip_list.find((item) => {
           if (item.typeId === this.vip_type) {
             this.money = item.holdinMoney
