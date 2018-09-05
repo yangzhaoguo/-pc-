@@ -3,7 +3,7 @@
     <div id="goods" class="sf-item-list-narrow">
       <ul class="sf-pai-item-list" v-if="itemList.length>0">
         <li v-for="(item , index) in itemList" :key="index" class="pai-item">
-          <div class="header-section"  @click="goShopDetails(item)">
+          <div class="header-section" @click="goShopDetails(item)">
             <img v-if="item.showWay==1" class="pic"
                  :src="item.showUrls[0]"
                  :alt="item.productName">

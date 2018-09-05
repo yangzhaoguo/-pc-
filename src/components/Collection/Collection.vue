@@ -22,8 +22,10 @@
                   class="pai-xmpp-current-price price-font-small">{{item.money}}元</em></span>
               </div>
               <!--status//３竞拍中４已拍出５已下架７已删除8竞拍失败-->
-              <span style="color: limegreen;" v-if="item.status===3" class="bid-tips"><em class="pai-xmpp-bid-count">竞拍中</em></span>
-              <span style="color: limegreen;" v-if="item.status===4" class="bid-tips"><em class="pai-xmpp-bid-count">已拍出</em></span>
+              <span style="color: limegreen;" v-if="item.status===3" class="bid-tips"><em
+                class="pai-xmpp-bid-count">竞拍中</em></span>
+              <span style="color: limegreen;" v-if="item.status===4" class="bid-tips"><em
+                class="pai-xmpp-bid-count">已拍出</em></span>
               <span style="color: gray;" v-if="item.status===5" class="bid-tips"><em class="pai-xmpp-bid-count">已下架</em></span>
               <span style="color: gray;" v-if="item.status===7" class="bid-tips"><em class="pai-xmpp-bid-count">已删除</em></span>
               <span style="color: red;" v-if="item.status===8" class="bid-tips"><em class="pai-xmpp-bid-count">竞拍失败</em></span>
@@ -103,10 +105,11 @@
 </script>
 
 <style scoped lang="less">
-  .title{
+  .title {
     font-size: 22px;
     margin-top: 14px;
   }
+
   .sf-item-list-narrow {
     .none-good {
       text-align: center;

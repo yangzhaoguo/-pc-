@@ -10,8 +10,8 @@
               </el-carousel-item>
             </el-carousel>
             <div v-if="detailData.showWay===2" style="text-align: center">
-                <video controls style="height: 250px;margin: auto;"  :src="detailData.showUrls[0]">
-                </video>
+              <video controls style="height: 250px;margin: auto;" :src="detailData.showUrls[0]">
+              </video>
             </div>
           </div>
         </el-col>

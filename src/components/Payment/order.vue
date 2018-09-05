@@ -90,30 +90,19 @@
       </el-col>
     </el-row>
     <div class="select-address">
-      <select-address :showHeader=false @postAddressData="postAddressData"></select-address>
-    </div>
-    <div class="flex flex-end" style="margin-top: 22px;font-size: 16px;">
-      <div style="margin-right: 12px;line-height: 38px">发票类型</div>
-      <el-select v-model="invoiceInfo" placeholder="无需发票">
-        <el-option
-          label="无需发票"
-          value="无需发票">
-        </el-option>
-        <el-option
-          label="明细（纸质）个人"
-          value="明细（纸质）个人">
-        </el-option>
-        <el-option
-          label="明细（电子）个人"
-          value="明细（电子）个人">
-        </el-option>
-      </el-select>
+      <div>
+        收货地址：{{detailData.orderExtraInfo.address}}
+      </div>
+      <div>
+        发票类型：{{detailData.orderExtraInfo.invoiceInfo}}
+      </div>
+      <div>
+        联系电话：{{detailData.orderExtraInfo.telphone}}
+      </div>
     </div>
     <div class="foot flex">
-      <div>
-        实付款：￥<span class="text">{{detailData.orderInfo.orderMoney + detailData.productInfo.transferMoney || 0}}</span>
-      </div>
-      <el-button type="primary" @click="addCollection">提交订单</el-button>
+
+      <el-button type="primary" @click="addCollection">确认收货</el-button>
     </div>
   </div>
 </template>
@@ -271,12 +260,17 @@
     .foot {
       justify-content: flex-end;
       padding-right: 12px;
-      margin-top: 22px;
+      margin-top: 42px;
       .text {
         font-size: 22px;
         color: red;
         margin-right: 12px;
       }
+    }
+  }
+  .select-address{
+    div{
+      margin-top: 20px;
     }
   }
 </style>

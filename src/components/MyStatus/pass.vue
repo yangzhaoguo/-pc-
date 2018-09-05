@@ -38,11 +38,11 @@
       </div>
     </div>
     <!--<div class="page-outer" v-if="itemList.length>6">-->
-      <!--<el-pagination-->
-        <!--layout="prev, pager, next"-->
-        <!--:page-size="pageSize"-->
-        <!--:page-count="pageCount">-->
-      <!--</el-pagination>-->
+    <!--<el-pagination-->
+    <!--layout="prev, pager, next"-->
+    <!--:page-size="pageSize"-->
+    <!--:page-count="pageCount">-->
+    <!--</el-pagination>-->
     <!--</div>-->
   </div>
 </template>

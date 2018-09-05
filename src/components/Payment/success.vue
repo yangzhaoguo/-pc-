@@ -1,6 +1,5 @@
 <template>
   <div>
-
   </div>
 </template>
 
@@ -8,7 +7,9 @@
   import { ajax, GetUserID } from '../../assets/js/user'
 
   export default {
-    data () {},
+    data () {
+      return {}
+    },
     methods: {
       getDetailProduct () {
         const url = 'paimai/front/confirm_pay_result'
@@ -17,11 +18,12 @@
           orderId: this.$route.query.orderId
         }
         const ret = r => {
+          console.log(r)
           if (r.busCode === 200) {
-            this.$router.push({path: '/order', query: this.$route.query.orderId})
+            this.$router.push({path: '/order', query: {orderId: this.$route.query.orderId}})
           } else {
             this.$message.error(r.data)
-            this.$router.push({path: '/payment', query: this.$route.query.orderId})
+            this.$router.push({path: '/payment', query: {orderId: this.$route.query.orderId}})
           }
         }
         ajax(url, 'get', data, ret, 30000, false)

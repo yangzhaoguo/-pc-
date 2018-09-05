@@ -13,6 +13,7 @@ import Pass from '@/components/MyStatus/pass'
 import Success from '@/components/MyStatus/success'
 import Payment from '@/components/Payment/Payment'
 import PaymentSuccess from '@/components/Payment/success'
+import Order from '@/components/Payment/order'
 import IndentDaiZhiFu from '@/components/MyIndent/daizhifu'
 import IndentDaiFaHuo from '@/components/MyIndent/daifahuo'
 import IndentDaiShouHuo from '@/components/MyIndent/daishouhuo'
@@ -98,6 +99,10 @@ export default new Router({
     {
       path: '/payment_success',
       component: PaymentSuccess
+    },
+    {
+      path: '/order',
+      component: Order
     },
     {
       path: '/payment',

@@ -42,67 +42,67 @@
 <script>
   export default {
     name: 'App',
-    data() {
+    data () {
       return {
         defaultActive: '2'
       }
     },
     methods: {
-      handleSelect(key, keyPath) {
+      handleSelect (key, keyPath) {
         switch (key) {
           case '0':
-            window.location.href = 'http://www.lingyi365.com/module/index.html';
-            break;
+            window.location.href = 'http://www.lingyi365.com/module/index.html'
+            break
           case '1':
-            window.location.href = 'http://www.lingyi365.com/module/index.html';
-            break;
+            window.location.href = 'http://www.lingyi365.com/module/index.html'
+            break
           case '2':
-            this.$router.push({path: '/'});
-            break;
+            this.$router.push({path: '/'})
+            break
           case '3':
-            window.location.href = 'http://www.lingyi365.com/module/index.html';
-            break;
+            window.location.href = 'http://www.lingyi365.com/module/index.html'
+            break
           case '4-1':
-            this.$router.push({path: '/my/bidding'});
-            break;
+            this.$router.push({path: '/my/bidding'})
+            break
           case '4-2':
-            this.$router.push({path: '/shipping_address'});
-            break;
+            this.$router.push({path: '/shipping_address'})
+            break
           case '4-3':
-            this.$router.push({path: '/cash_deposit'});
-            break;
+            this.$router.push({path: '/cash_deposit'})
+            break
           case '4-4':
-            this.$router.push({path: '/my_indext/daiZhiFu'});
-            break;
+            this.$router.push({path: '/my_indext/daiZhiFu'})
+            break
           case '4-5':
-            this.$router.push({path: '/collection'});
-            break;
+            this.$router.push({path: '/collection'})
+            break
           default:
             return false
         }
       }
     },
     watch: {
-      $route() {
+      $route () {
         switch (this.$route.path) {
           case '/':
-            this.defaultActive = '2';
-            break;
+            this.defaultActive = '2'
+            break
           case '/my/bidding':
-            this.defaultActive = '4-1';
-            break;
+            this.defaultActive = '4-1'
+            break
           case '/shipping_address':
-            this.defaultActive = '4-2';
-            break;
+            this.defaultActive = '4-2'
+            break
           case '/cash_deposit':
-            this.defaultActive = '4-3';
-            break;
+            this.defaultActive = '4-3'
+            break
           case '/my_indext/daiZhiFu':
-            this.defaultActive = '4-4';
-            break;
+            this.defaultActive = '4-4'
+            break
           case '/collection':
-            this.defaultActive = '4-5';
-            break;
+            this.defaultActive = '4-5'
+            break
           default:
             return false
         }

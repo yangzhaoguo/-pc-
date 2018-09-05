@@ -3,7 +3,7 @@
     <div id="goods" class="sf-item-list-narrow">
       <ul class="sf-pai-item-list" v-if="itemList.length>0">
         <li v-for="(item , index) in itemList" :key="index" class="pai-item">
-          <div class="header-section"  @click="goShopDetails(item)">
+          <div class="header-section" @click="goShopDetails(item)">
             <img v-if="item.showWay==1" class="pic"
                  :src="item.showUrls[0]"
                  :alt="item.productName">
@@ -33,11 +33,11 @@
       </div>
     </div>
     <!--<div class="page-outer" v-if="itemList.length>6">-->
-      <!--<el-pagination-->
-        <!--layout="prev, pager, next"-->
-        <!--:page-size="pageSize"-->
-        <!--:page-count="pageCount">-->
-      <!--</el-pagination>-->
+    <!--<el-pagination-->
+    <!--layout="prev, pager, next"-->
+    <!--:page-size="pageSize"-->
+    <!--:page-count="pageCount">-->
+    <!--</el-pagination>-->
     <!--</div>-->
   </div>
 </template>
