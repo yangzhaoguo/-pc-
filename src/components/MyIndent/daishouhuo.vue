@@ -1,6 +1,5 @@
 <template>
   <div>
-    待收货
     <div id="goods" class="sf-item-list-narrow">
       <ul class="sf-pai-item-list" v-if="itemList.length>0">
         <li v-for="(item , index) in itemList" :key="index" class="pai-item">
@@ -37,7 +36,8 @@
               <em v-if="item.transferMoneyWay===2">运费预付</em>
               <em v-if="item.transferMoneyWay===2">运费到付</em>
             </p>
-            <p class="num-apply" @click="goShopDetails(item)"><em>去付款</em></p>
+            <p class="num-apply" style="background: rgb(51, 179, 237);color: #fff;" @click="goShopDetails(item)">
+              <em>详情</em></p>
           </div>
         </li>
       </ul>
@@ -72,7 +72,7 @@
       getItemList () {
         const data = {
           userId: USER.GetUserID(),
-          orderStatus: 0   //未支付状态
+          orderStatus: 5   //未支付状态
         }
         const url = 'paimai/front/list_orders'
         const ret = (r) => {
@@ -87,8 +87,7 @@
         USER.ajax(url, 'get', data, ret)
       },
       goShopDetails (data) {
-        console.log(data)
-        this.$router.push({path: '/payment', query: {productId: data.productId}})
+        this.$router.push({path: '/order', query: {orderId: data.orderId}})
       }
     },
     components: {

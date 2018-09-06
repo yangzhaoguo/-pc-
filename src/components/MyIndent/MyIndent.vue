@@ -72,17 +72,20 @@
     },
     created () {
       switch (this.$route.path) {
-        case '/my/bidding':
+        case '//my_indext/daizhifu':
           this.activeName = '0'
           break
-        case '/my/pass':
+        case '/my_indext/daifahuo':
           this.activeName = '1'
           break
-        case '/my/fail':
+        case '/my_indext/daishouhuo':
           this.activeName = '2'
           break
-        case '/my/success':
+        case '/my_indext/daipingjia':
           this.activeName = '3'
+          break
+        case '/my_indext/yipingjia':
+          this.activeName = '4'
           break
         default:
           return false

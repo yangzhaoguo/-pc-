@@ -36,7 +36,7 @@
               <em v-if="item.transferMoneyWay===2">运费预付</em>
               <em v-if="item.transferMoneyWay===2">运费到付</em>
             </p>
-            <p class="num-apply" @click="goShopDetails(item)"><em>去付款</em></p>
+            <p class="num-apply" @click="goShopDetails(item)" style="background: rgb(51, 179, 237);color: #fff;"><em>去付款</em></p>
           </div>
         </li>
       </ul>
