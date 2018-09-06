@@ -72,9 +72,9 @@
       getItemList () {
         const data = {
           userId: USER.GetUserID(),
-          orderStatus: 7   //未支付状态
+          commentFlag: 1   //未支付状态
         }
-        const url = 'paimai/front/list_orders'
+        const url = 'paimai/front/list_comment_orders'
         const ret = (r) => {
           console.log(r)
           if (r.busCode === 200) {

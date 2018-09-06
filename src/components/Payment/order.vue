@@ -101,14 +101,40 @@
       </div>
     </div>
     <div class="foot flex">
-
-      <el-button type="primary" @click="addCollection">确认收货</el-button>
+      <el-button v-if="detailData.productInfo.status===5" type="primary" @click="addCollection">确认收货</el-button>
+      <el-button v-if="detailData.productInfo.status===4&&detailData.orderInfo.commentFlag===0" type="primary"
+                 @click="showEvaluatefun">
+        评价商品
+      </el-button>
+      <el-button v-if="detailData.productInfo.status===4&&detailData.orderInfo.commentFlag===1" type="primary"
+                 @click="watchEvaluate=!watchEvaluate">
+        查看评价
+      </el-button>
     </div>
+
+    <el-dialog
+      title="评价"
+      :visible.sync="showEvaluate"
+      width="520px"
+      align="center">
+      <evaluate :showEvaluate.sync="showEvaluate" style="margin-top: -30px" @postEvaluate="postEvaluate"></evaluate>
+    </el-dialog>
+
+    <div v-if="detailData.orderInfo.commentFlag === 1">
+      <el-dialog
+        title="查看评价"
+        :visible.sync="watchEvaluate"
+        width="520px"
+        align="center">
+        <watchEvaluate :watchEvaluate.sync="watchEvaluate" :EvaluateData="EvaluateData" style="margin-top: -30px"></watchEvaluate>
+      </el-dialog>
+    </div>
+
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  import { ajax, Payment } from '../../assets/js/user'
+  import { ajax, Payment, GetUserID } from '../../assets/js/user'
   import PingLun from '../../common/pinglun/pinglun.vue'
   import PingLunList from '../../common/pinglun/list.vue'
   import JingPaiChuJia from '../../common/jingpai/jingpai.vue'
@@ -116,6 +142,8 @@
   import ScrollSole from '../../common/scroll/scrollSole.vue'
   import CountDown from '../../common/countDown/countDown.vue'
   import selectAddress from '../../common/Address/selectAddress.vue'
+  import evaluate from '../../common/evaluate/evaluate.vue'
+  import watchEvaluate from '../../common/evaluate/watchEvaluate.vue'
 
   export default {
     data () {
@@ -133,7 +161,10 @@
         detailData: 0,          //单品详情
         address: '',
         telphone: '',
-        callBackUrl: localStorage.getItem('url')
+        callBackUrl: localStorage.getItem('url'),
+        showEvaluate: false,
+        watchEvaluate: false,
+        EvaluateData: {}
       }
     },
     methods: {
@@ -144,6 +175,9 @@
           console.log(r)
           if (r.busCode === 200) {
             this.$set(this, 'detailData', r.data)
+            if (r.data.orderInfo.commentFlag === 1) {
+              this.getEvaluateData()
+            }
           } else {
             this.$message.error(r.data)
           }
@@ -176,9 +210,49 @@
         }
         ajax(url, 'post', data, ret)
       },
+      getEvaluateData () {
+        const url = 'paimai/front/detail_order_comment'
+        const ret = r => {
+          console.log(r)
+          if (r.busCode === 200) {
+            this.EvaluateData = r.data
+          } else {
+            this.$message.error(r.data)
+          }
+        }
+        ajax(url, 'get', {orderId: this.$route.query.orderId}, ret)
+      },
       postAddressData (data) {
         this.address = data.region + ' ' + data.detailAddress
         this.telphone = data.telephone
+      },
+      showEvaluatefun () {
+        this.$set(this, 'showEvaluate', true)
+      },
+      postEvaluate (prop) {
+        const url = 'paimai/front/add_order_comment'
+        const data = {
+          'orderId': this.$route.query.orderId,
+          'shopId': this.detailData.orderInfo.shopId,
+          'starNums': prop.value,
+          'fileUrls': 'string',
+          'commentContent': prop.remark,
+          'addUserid': GetUserID()
+        }
+        console.log(data)
+        const ret = r => {
+          if (r.busCode === 200) {
+            this.$message({
+              message: r.data,
+              type: 'success'
+            })
+            this.showEvaluate = false
+            this.getDetailProduct()
+          } else {
+            this.$message.error(r.data)
+          }
+        }
+        ajax(url, 'POST', data, ret)
       }
     },
     components: {
@@ -188,7 +262,9 @@
       ScrollSole,
       CountDown,
       JingPaiChuJiaList,
-      selectAddress
+      selectAddress,
+      evaluate,
+      watchEvaluate
     },
     created () {
       this.getDetailProduct()
@@ -268,8 +344,9 @@
       }
     }
   }
-  .select-address{
-    div{
+
+  .select-address {
+    div {
       margin-top: 20px;
     }
   }
