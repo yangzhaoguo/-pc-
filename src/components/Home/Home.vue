@@ -5,16 +5,20 @@
       v-model="activeName"
       @tab-click="handleClick">
       <el-tab-pane label="全部" name="0" active="false">
-        <goods ref="allGood"></goods>
       </el-tab-pane>
       <el-tab-pane v-for="(item , index) in typeList"
                    active="false"
                    :name="item.typeId"
                    :label="item.typeName"
                    :key="index">
-        <goods ref="tabRef" :typeId="item.typeId"></goods>
       </el-tab-pane>
     </el-tabs>
+    <div class="el-tabs--border-card" style="margin-top: -32px">
+      <div class="el-tabs__content">
+        <router-view></router-view>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -25,12 +29,14 @@
   export default {
     data () {
       return {
-        activeName: '0',
+        activeName: this.$route.params.id,
         typeList: []
       }
     },
     methods: {
-      handleClick (tab) {},
+      handleClick (tab) {
+        this.$router.push({path: `/home/${tab.name}`})
+      },
       getTypeList () {
         const url = 'paimai/front/list_product_type'
         const ret = (r) => {

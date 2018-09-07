@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home/Home'
+import HomeGoods from '@/components/Home/goods'
 import My from '@/components/MyStatus/MyStatus'
 import ShippingAddress from '@/components/ShippingAddress/ShippingAddress'
 import ShopDetails from '@/components/ShopDetails/ShopDetails'
@@ -26,11 +27,17 @@ export default new Router({
   routes: [
     {
       path: '*',
-      redirect: '/'
+      redirect: '/home'
     },
     {
-      path: '/',
-      component: Home
+      path: '/home',
+      component: Home,
+      children: [
+        {
+          path: ':id',
+          component: HomeGoods
+        }
+      ]
     },
     {
       path: '/my/:type',

@@ -55,6 +55,7 @@
     data () {
       return {
         itemList: [],
+        path: this.$router.currentRoute.path,
         baseUrl: USER.baseUrl,
         page: 1,
         pageCount: 0,
@@ -62,9 +63,9 @@
       }
     },
     methods: {
-      getItemList () {
+      getItemList (typeId) {
         const data = {
-          typeId: this.typeId || null,
+          typeId: typeId === '0' ? null : typeId,
           pageSize: this.pageSize,
           pageNo: this.page
         }
@@ -80,7 +81,6 @@
             }, 100)
           } else {
             this.$alert(r.data)
-            console.log(this.$reg)
           }
         }
         USER.ajax(url, 'get', data, ret, 30000, false)
@@ -95,9 +95,12 @@
     components: {
       CountDown
     },
-    props: ['typeId'],
     created () {
-      this.getItemList()
+      this.getItemList('0')
+    },
+    beforeRouteUpdate (to, from, next) {
+      this.getItemList(to.params.id)
+      next()
     }
   }
 </script>
