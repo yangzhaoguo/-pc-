@@ -177,9 +177,6 @@ function GetPayUrl(businessTypeCode, orderId, title, tradeMoney, backUrl) {
     location.href = url;
 }
 
-
-
-
 //获取用户的token
 function GetUserToken() {
     if (isDeBug ==true)
@@ -187,7 +184,7 @@ function GetUserToken() {
     else
     {
         return browser().GetUserToken();
-    }  
+    }
 }
 function GetUserID() {
     if (isDeBug == true)
@@ -215,7 +212,7 @@ function GetEnterpriseID()
         return "c8e0ca6b-b024-4ad1-8c9f-a798012d9724";  //c8e0ca6b-b024-4ad1-8c9f-a798012d9724  e7e56b10-7c2a-474c-a6db-a64100aaa924
     else
     {
-        return browser().GetEnterpriseID();  
+        return browser().GetEnterpriseID();
     }
 }
 
@@ -226,7 +223,7 @@ function GetEnterpriseName()
     if (isDeBug == true)
         return "高建平那个测试";
     else {
-        return browser().GetEnterpriseName();     
+        return browser().GetEnterpriseName();
     }
 }
 
@@ -235,7 +232,7 @@ function GetDepartmentID()
     if (isDeBug == true)
         return "707f160e-cb64-41ba-8890-a760012f2f88";
     else {
-        return browser().GetDepartmentID();      
+        return browser().GetDepartmentID();
     }
 }
 
@@ -244,7 +241,7 @@ function GetDepartmentName()
     if (isDeBug == true)
         return "开发3部";
     else {
-        return browser().GetDepartmentName();       
+        return browser().GetDepartmentName();
     }
 }
 
@@ -252,7 +249,7 @@ function GetUserMobile() {
     if (isDeBug == true)
         return "12345678901";
     else {
-        return browser().UserMobile();      
+        return browser().UserMobile();
     }
 }
 
@@ -262,7 +259,7 @@ function GetIsEnterpriseAdmin()
     if (isDeBug == true)
         return "1";
     else {
-        return browser().GetIsEnterpriseAdmin();       
+        return browser().GetIsEnterpriseAdmin();
     }
 }
 
@@ -273,7 +270,7 @@ function GetIsDepartmentAdmin()
     if (isDeBug == true)
         return "1";
     else {
-        browser().GetIsDepartmentAdmin();       
+        browser().GetIsDepartmentAdmin();
     }
 }
 
@@ -283,7 +280,7 @@ function GetUserRegTrueName()
     if (isDeBug == true)
         return "调试人";
     else {
-        return browser().GetUserRegTrueName();      
+        return browser().GetUserRegTrueName();
     }
 }
 
@@ -293,7 +290,7 @@ function GetUserRegMobile()
     if (isDeBug == true)
         return "12345678912";
     else {
-        return browser().GetUserRegMobile();       
+        return browser().GetUserRegMobile();
     }
 }
 
@@ -303,7 +300,7 @@ function GetUserRegImage()
     if (isDeBug == true)
         return "";
     else {
-        return browser().GetUserRegImage();      
+        return browser().GetUserRegImage();
     }
 }
 
@@ -329,7 +326,7 @@ function GetUser()
 //    if (isDeBug == true)
 //        return "1";
 //    else {
-//        return browser().GetModuleAuthority(moduleID);       
+//        return browser().GetModuleAuthority(moduleID);
 //    }
 //}
 
@@ -477,7 +474,7 @@ function GetSystemPara(paraID)
 function GetUseWorkPwd(specialModuleID)
 {
     if (isDeBug == true)
-        return "1"; 
+        return "1";
     else {
         return browser().GetUseWorkPwd(specialModuleID);  //返回是否使用工作密码
     }
@@ -500,7 +497,7 @@ function GetIsProduction()
 //当前用户的权限改变时，刷新所有页面
 function SetResetUserAuth()
 {
-    if (isDeBug == false) 
+    if (isDeBug == false)
     {
         showThroughLoad('正在刷新您的权限');
 
@@ -523,14 +520,14 @@ function OpenTabWindow(id,name,url)
 //关闭一个已经打开的窗口
 function CloseTabWindow(id)
 {
-    browser().CloseTabWindow(id);  
+    browser().CloseTabWindow(id);
 }
 
 
 //刷新页面上的角标
 function BackGetReportData()
 {
-    browser().BackGetReportData(); 
+    browser().BackGetReportData();
 }
 
 
@@ -543,7 +540,7 @@ function EnterpriseRefresh()
 //打开新的企业
 function ReSetEnterprise(enterpriseID)
 {
-    browser().ReSetEnterprise(enterpriseID); 
+    browser().ReSetEnterprise(enterpriseID);
 }
 
 
@@ -571,7 +568,7 @@ function EnterpriseOut()
 function ReSetDepartment(departID) {
     if (isDeBug == false) {
         showThroughLoad('正在切换部门');
-        browser().ReSetDepartment(departID);        
+        browser().ReSetDepartment(departID);
         //延时关闭
         setTimeout(function () {
             closeload();

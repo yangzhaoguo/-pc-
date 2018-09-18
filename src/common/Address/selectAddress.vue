@@ -122,21 +122,25 @@
       },
       getAddressList () {
         const data = {
-          userId: USER.GetUserID()
+          userId: this.lycore.getUserId()
         }
-        const url = 'paimai/front/list_address'
-        const ret = r => {
-          console.log(r)
-          if (r.busCode === 200) {
-            this.tableData = r.data
-            this.addressId = this.tableData.find(v => {
-              return v.defaultFlag === 1
-            })._id
-          } else {
-            this.$message.error(r.data)
+        try {
+          const url = 'paimai/front/list_address'
+          const ret = r => {
+            if (r.busCode === 200) {
+              if (r.data.length > 0) {
+                this.tableData = r.data
+                this.addressId = this.tableData.find(v => {
+                  return v.defaultFlag === 1
+                })._id
+              }
+            } else {
+              this.$message.error(r.data)
+            }
           }
+          USER.ajax(url, 'get', data, ret)
+        } catch (err) {
         }
-        USER.ajax(url, 'get', data, ret)
       },
       postAddress (data) {
         const url = 'paimai/front/add_new_address'
@@ -206,7 +210,7 @@
         this.$emit('postAddressData', active)
       }
     },
-    mounted () {
+    created () {
       this.getAddressList()
     }
   }

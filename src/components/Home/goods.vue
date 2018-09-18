@@ -1,5 +1,16 @@
 <template>
   <div style="position: relative">
+    <div style="width: 404px;padding-left: 12px;display: flex">
+      <el-input
+        @keyup.native.enter="getItemList($route.params.id)"
+        placeholder="请输入搜索商品"
+        v-model="searchContent">
+        <i slot="prefix" class="el-input__icon el-icon-search"></i>
+      </el-input>
+      <el-button style="margin-left: 12px" type="primary" @click.native="getItemList($route.params.id)">
+        搜索拍品
+      </el-button>
+    </div>
     <div id="goods" class="sf-item-list-narrow">
       <ul class="sf-pai-item-list" v-if="itemList.length>0">
         <li v-for="(item , index) in itemList" :key="index" class="pai-item" @click="goShopDetails(item)">
@@ -56,20 +67,26 @@
       return {
         itemList: [],
         path: this.$router.currentRoute.path,
-        baseUrl: USER.baseUrl,
         page: 1,
         pageCount: 0,
-        pageSize: 6
+        pageSize: 6,
+        searchContent: ''
       }
     },
     methods: {
       getItemList (typeId) {
-        const data = {
-          typeId: typeId === '0' ? null : typeId,
-          pageSize: this.pageSize,
-          pageNo: this.page
+        let _id = ''
+        if (typeId === '0' || typeId === undefined || typeId === null) {
+          _id = null
+        } else {
+          _id = typeId
         }
-        console.log(data)
+        const data = {
+          typeId: _id,
+          pageSize: this.pageSize,
+          pageNo: this.page,
+          searchContent: this.searchContent
+        }
         const url = 'paimai/front/list_products'
         const ret = (r) => {
           console.log(r)
@@ -96,9 +113,10 @@
       CountDown
     },
     created () {
-      this.getItemList('0')
+      this.getItemList(this.$route.params.id)
     },
     beforeRouteUpdate (to, from, next) {
+      this.searchContent = ''
       this.getItemList(to.params.id)
       next()
     }

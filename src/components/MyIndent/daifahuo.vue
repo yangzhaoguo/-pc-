@@ -36,7 +36,8 @@
               <em v-if="item.transferMoneyWay===2">运费预付</em>
               <em v-if="item.transferMoneyWay===2">运费到付</em>
             </p>
-            <p class="num-apply" style="background: rgb(51, 179, 237);color: #fff;" @click="goShopDetails(item)"><em>详情</em></p>
+            <p class="num-apply" style="background: rgb(51, 179, 237);color: #fff;" @click="goShopDetails(item)">
+              <em>详情</em></p>
           </div>
         </li>
       </ul>
@@ -70,7 +71,7 @@
     methods: {
       getItemList () {
         const data = {
-          userId: USER.GetUserID(),
+          userId: this.lycore.getUserId(),
           orderStatus: 2   //未支付状态
         }
         const url = 'paimai/front/list_orders'

@@ -70,7 +70,7 @@
     methods: {
       getItemList () {
         const data = {
-          userId: USER.GetUserID(),
+          userId: this.lycore.getUserId(),
           orderStatus: 0   //未支付状态
         }
         const url = 'paimai/front/list_orders'

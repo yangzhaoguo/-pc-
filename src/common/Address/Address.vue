@@ -36,9 +36,7 @@
 
 <script type="text/ecmascript-6">
   /* eslint-disable vue/require-valid-default-prop */
-
   import vueAddress from './selectRess.vue'
-  import * as USER from '../../assets/js/user.js'
 
   export default {
     data () {
@@ -73,7 +71,7 @@
           'fullName': this.addressData.fullName,
           'region': `${this.provinces[0]} ${this.provinces[1]} ${this.provinces[2]}`,
           'telephone': this.addressData.telephone,
-          'userId': USER.GetUserID()
+          'userId': this.lycore.getUserId()
         }
         for (let key in data) {
           if (data[key] === '' || data[key] === undefined) {

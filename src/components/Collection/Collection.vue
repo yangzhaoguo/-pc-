@@ -58,7 +58,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { ajax, GetUserID } from '../../assets/js/user'
+  import { ajax } from '../../assets/js/user'
   import CountDown from '../../common/countDown/countDown.vue'
 
   export default {
@@ -73,7 +73,7 @@
     methods: {
       getList () {
         const data = {
-          userId: GetUserID()
+          userId: this.lycore.getUserId()
         }
         const url = 'paimai/front/list_my_collection'
         const ret = r => {

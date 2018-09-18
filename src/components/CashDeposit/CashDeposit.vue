@@ -85,7 +85,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { ajax, GetUserID, Payment } from '../../assets/js/user'
+  import { ajax, Payment } from '../../assets/js/user'
 
   export default {
     data () {
@@ -109,7 +109,7 @@
         ajax(url, 'get', {}, ret)
       },
       get_self_vip_data () {
-        const url = 'paimai/front/get_user_gurantee_rule?userId=' + GetUserID()
+        const url = 'paimai/front/get_user_gurantee_rule?userId=' + this.lycore.getUserId()
         const ret = (r) => {
           console.log(r)
           if (r.busCode === 200) {
@@ -129,7 +129,7 @@
         }
         const data = {
           guranteeId: this.vip_type,
-          userId: GetUserID()
+          userId: this.lycore.getUserId()
         }
         const url = 'paimai/front/pre_pay'
         const ret = r => {
@@ -143,7 +143,7 @@
       this.get_self_vip_data()
       if (this.$route.query.payId && this.$route.query.payId !== '') {
         const data = {
-          userId: GetUserID(),
+          userId: this.lycore.getUserId(),
           payId: this.$route.query.payId
         }
         const ret = r => {

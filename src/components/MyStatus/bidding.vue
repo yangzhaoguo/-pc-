@@ -58,7 +58,7 @@
     methods: {
       getItemList () {
         const data = {
-          userId: USER.GetUserID()
+          userId: this.lycore.getUserId()
         }
         const url = 'paimai/front/list_bidding'
         const ret = (r) => {

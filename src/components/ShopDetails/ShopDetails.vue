@@ -10,8 +10,13 @@
               </el-carousel-item>
             </el-carousel>
             <div v-if="detailData.showWay===2" style="text-align: center">
-              <video controls style="height: 250px;margin: auto;" :src="detailData.showUrls[0]">
-              </video>
+              <!--<video controls style="height: 250px;margin: auto;" :src="detailData.showUrls[0]">-->
+              <!--</video>-->
+              <video-player class="video-player vjs-custom-skin"
+                            ref="videoPlayer"
+                            :playsinline="true"
+                            :options="playerOptions"
+              ></video-player>
             </div>
           </div>
         </el-col>
@@ -39,6 +44,14 @@
                     <p>{{detailData.topPrice}}元</p>
                   </td>
                 </tr>
+                <!--<tr>-->
+                <!--<td class="title" valign="top" width="127">-->
+                <!--<p>保证金:</p>-->
+                <!--</td>-->
+                <!--<td class="text">-->
+                <!--<p>{{detailData.goPriceNums}}次</p>-->
+                <!--</td>-->
+                <!--</tr>-->
                 <tr>
                   <td class="title" valign="top" width="127">
                     <p>出价次数:</p>
@@ -96,7 +109,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { ajax, GetUserID } from '../../assets/js/user'
+  import { ajax, Payment } from '../../assets/js/user'
   import PingLun from '../../common/pinglun/pinglun.vue'
   import PingLunList from '../../common/pinglun/list.vue'
   import JingPaiChuJia from '../../common/jingpai/jingpai.vue'
@@ -117,7 +130,30 @@
         priceListPageNo: 1,     //出价当前页码
         priceListCount: 10,     //出价当前页码
         priceList: [],          //出价列表
-        detailData: {}          //单品详情
+        detailData: {},         //单品详情
+        playerOptions: {
+          playbackRates: [0.7, 1.0, 1.5, 2.0], //播放速度
+          autoplay: false, //如果true,浏览器准备好时开始回放。
+          muted: false, // 默认情况下将会消除任何音频。
+          loop: false, // 导致视频一结束就重新开始。
+          preload: 'auto', // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
+          language: 'zh-CN',
+          aspectRatio: '16:9', // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
+          fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
+          sources: [{
+            type: '',
+            src: '' //url地址
+          }],
+          poster: '', //你的封面地址
+          // width: document.documentElement.clientWidth,
+          notSupportedMessage: '此视频暂无法播放，请稍后再试', //允许覆盖Video.js无法播放媒体源时显示的默认信息。
+          controlBar: {
+            timeDivider: true,
+            durationDisplay: true,
+            remainingTimeDisplay: false,
+            fullscreenToggle: true  //全屏按钮
+          }
+        }
       }
     },
     methods: {
@@ -137,9 +173,11 @@
         const url = 'paimai/front/detail_product'
         const ret = r => {
           console.log('单品详情----------------')
-          console.log(r)
           if (r.busCode === 200) {
             this.detailData = r.data
+            if (r.data.showWay === 2) {
+              this.playerOptions.sources[0].src = r.data.showUrls[0]
+            }
           } else {
             this.$message.error(r.data)
           }
@@ -154,8 +192,6 @@
         }
         const url = 'paimai/front/list_go_price'
         const ret = r => {
-          console.log('出价列表----------------')
-          console.log(r)
           if (r.busCode === 200) {
             this.priceListCount = r.data.pageCount
             this.priceListPageNo++
@@ -176,11 +212,8 @@
           pageSize: 10,
           ProductId: this.$route.query.productId
         }
-        console.log(data)
         const url = 'paimai/front/list_product_comment'
         const ret = r => {
-          console.log(`评价列表---------------`)
-          console.log(r)
           if (r.busCode === 200) {
             this.commentCount = r.data.pageCount
             this.commentPageNo++
@@ -192,16 +225,13 @@
         ajax(url, 'get', data, ret, 30000, false)
       },
       postComment (text) {
-        console.log(text)
         const data = {
-          'addUserId': GetUserID(),
+          'addUserId': this.lycore.getUserId(),
           'commentContent': text,
           'productId': this.$route.query.productId
         }
-        console.log(data)
         const url = 'paimai/front/add_product_comment'
         const ret = r => {
-          console.log(r)
           if (r.busCode === 200) {
             this.commentList = []
             this.commentPageNo = 1
@@ -215,13 +245,11 @@
         ajax(url, 'post', data, ret)
       },
       postPrice (num) {
-        console.log(num)
         const data = {
-          'userId': GetUserID(),
+          'userId': this.lycore.getUserId(),
           'price': num,
           'productId': this.$route.query.productId
         }
-        console.log(data)
         const url = 'paimai/front/add_go_price'
         const ret = r => {
           if (r.busCode === 200) {
@@ -231,6 +259,25 @@
                 window.location.reload()
               }
             })
+          } else if (r.busCode === 430) {
+            const data = {
+              'userId': this.lycore.getUserId(),
+              'productId': this.$route.query.productId
+            }
+            const url = 'paimai/front/pre_pay_promise_money'
+            const retfun = request => {
+              if (request.busCode === 200) {
+                this.$confirm(`请先缴纳${request.data.money}元保证金，竞拍支付成功后保证金会返回到支付账户`, '提示', {
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消',
+                  type: 'warning'
+                }).then(() => {
+                  this.AuctionDidVisi = false
+                  Payment(request.data.orderId, request.data.money, request.data.title, false, false, location.href + '&orderId=' + request.data.orderId)
+                }).catch(() => {})
+              }
+            }
+            ajax(url, 'GET', data, retfun)
           } else {
             this.$message.error(r.data)
           }
@@ -248,7 +295,7 @@
       addCollection () {
         const data = {
           productId: this.$route.query.productId,
-          userId: GetUserID()
+          userId: this.lycore.getUserId()
         }
         const url = 'paimai/front/add_my_collection'
         const ret = r => {
@@ -267,6 +314,19 @@
     },
     created () {
       this.init()
+      //支付成功返回后提交支付结果
+      if (this.$route.query.orderId) {
+        const data = {
+          'userId': this.lycore.getUserId(),
+          'orderId': this.$route.query.orderId
+        }
+        const url = 'paimai/front/notice_promise_money_pay_result'
+        console.log(data)
+        const ret = r => {
+          console.log(r)
+        }
+        ajax(url, 'get', data, ret, 3000, false)
+      }
     }
   }
 </script>

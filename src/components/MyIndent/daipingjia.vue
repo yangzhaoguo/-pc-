@@ -71,7 +71,7 @@
     methods: {
       getItemList () {
         const data = {
-          userId: USER.GetUserID(),
+          userId: this.lycore.getUserId(),
           commentFlag: 0   //未支付状态
         }
         const url = 'paimai/front/list_comment_orders'

@@ -5,7 +5,7 @@
         <el-menu
           :defaultActive="defaultActive"
           mode="horizontal"
-          @select="handleSelect"
+          :router="true"
           activeTextColor="#00a0e9">
           <div>
             <img class="logo" src="./logo.png" alt="">
@@ -16,7 +16,7 @@
           <el-menu-item index="1">
             <a href="javascript:">品牌直销</a>
           </el-menu-item>
-          <el-menu-item index="2">
+          <el-menu-item index="/home/0">
             <a href="javascript:">拍卖场</a>
           </el-menu-item>
           <el-menu-item index="3">
@@ -24,11 +24,11 @@
           </el-menu-item>
           <el-submenu index="4" style="margin-left: 90px">
             <template slot="title"><span>更多</span></template>
-            <el-menu-item index="4-1">竞拍状态</el-menu-item>
-            <el-menu-item index="4-2">收货地址</el-menu-item>
-            <el-menu-item index="4-3">保证金</el-menu-item>
-            <el-menu-item index="4-4">我的订单</el-menu-item>
-            <el-menu-item index="4-5">我的收藏</el-menu-item>
+            <el-menu-item index="/my/bidding">竞拍状态</el-menu-item>
+            <el-menu-item index="/shipping_address">收货地址</el-menu-item>
+            <!--<el-menu-item index="4-3">保证金</el-menu-item>-->
+            <el-menu-item index="/my_indext/daiZhiFu">我的订单</el-menu-item>
+            <el-menu-item index="/collection">我的收藏</el-menu-item>
           </el-submenu>
         </el-menu>
       </el-header>
@@ -44,70 +44,15 @@
     name: 'App',
     data () {
       return {
-        defaultActive: '2'
+        defaultActive: this.$route.path
       }
     },
-    methods: {
-      handleSelect (key, keyPath) {
-        switch (key) {
-          case '0':
-            window.location.href = 'http://www.lingyi365.com/module/index.html'
-            break
-          case '1':
-            window.location.href = 'http://www.lingyi365.com/module/index.html'
-            break
-          case '2':
-            this.$router.push({path: '/'})
-            break
-          case '3':
-            window.location.href = 'http://www.lingyi365.com/module/index.html'
-            break
-          case '4-1':
-            this.$router.push({path: '/my/bidding'})
-            break
-          case '4-2':
-            this.$router.push({path: '/shipping_address'})
-            break
-          case '4-3':
-            this.$router.push({path: '/cash_deposit'})
-            break
-          case '4-4':
-            this.$router.push({path: '/my_indext/daiZhiFu'})
-            break
-          case '4-5':
-            this.$router.push({path: '/collection'})
-            break
-          default:
-            return false
-        }
-      }
+    created () {
+      console.log(this.$route.path)
     },
-    watch: {
-      $route () {
-        switch (this.$route.path) {
-          case '/':
-            this.defaultActive = '2'
-            break
-          case '/my/bidding':
-            this.defaultActive = '4-1'
-            break
-          case '/shipping_address':
-            this.defaultActive = '4-2'
-            break
-          case '/cash_deposit':
-            this.defaultActive = '4-3'
-            break
-          case '/my_indext/daiZhiFu':
-            this.defaultActive = '4-4'
-            break
-          case '/collection':
-            this.defaultActive = '4-5'
-            break
-          default:
-            return false
-        }
-      }
-    }
+    methods: {},
+    mounted () {},
+    watch: {}
   }
 </script>
 

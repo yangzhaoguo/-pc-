@@ -4,7 +4,7 @@
     <div style="margin: 0 auto; height: 56px">
       <el-rate
         v-model="EvaluateData.starNums"
-        disabled="true"
+        :disabled="true"
       ></el-rate>
     </div>
     <div class="flex" style="padding-left: 34px">
@@ -16,7 +16,7 @@
       评价：{{EvaluateData.commentContent}}
     </div>
     <br>
-    <el-button @click.native="postEvaluate" style="width: 400px" type="primary">关闭</el-button>
+    <el-button @click.native="this.watchEvaluate=false" style="width: 400px" type="primary">关闭</el-button>
   </div>
 </template>
 
@@ -25,7 +25,7 @@
     data () {
       return {}
     },
-    props: ['showEvaluate', 'EvaluateData'],
+    props: ['EvaluateData', 'watchEvaluate'],
     methods: {
       postEvaluate () {
         if (this.value === 0 || this.remark === '') {

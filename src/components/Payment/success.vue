@@ -4,7 +4,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { ajax, GetUserID } from '../../assets/js/user'
+  import { ajax } from '../../assets/js/user'
 
   export default {
     data () {
@@ -14,7 +14,7 @@
       getDetailProduct () {
         const url = 'paimai/front/confirm_pay_result'
         const data = {
-          userId: GetUserID(),
+          userId: this.lycore.getUserId(),
           orderId: this.$route.query.orderId
         }
         const ret = r => {

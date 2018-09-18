@@ -27,14 +27,14 @@ export default new Router({
   routes: [
     {
       path: '*',
-      redirect: '/home'
+      redirect: '/home/0'
     },
     {
-      path: '/home',
+      path: '/home/:id',
       component: Home,
       children: [
         {
-          path: ':id',
+          path: '',
           component: HomeGoods
         }
       ]
