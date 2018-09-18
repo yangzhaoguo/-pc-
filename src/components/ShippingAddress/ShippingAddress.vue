@@ -16,4 +16,9 @@
 
 <style scoped lang="less">
   @import '../../assets/css/public.less';
+
+  #ShippingAddress {
+    width: 960px;
+    margin: 0 auto;
+  }
 </style>

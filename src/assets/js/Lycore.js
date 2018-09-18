@@ -1,3 +1,4 @@
+//公用方法
 export default class Lycore {
   constructor (bound, userLoginInfo, userEnterpriseInfo) {
     this.bound = bound

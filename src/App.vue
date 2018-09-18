@@ -10,7 +10,7 @@
           <div>
             <img class="logo" src="./logo.png" alt="">
           </div>
-          <el-menu-item index="0" style="margin-left: 90px">
+          <el-menu-item index="x" style="margin-left: 90px">
             <a href="javascript:">自由市场</a>
           </el-menu-item>
           <el-menu-item index="1">
@@ -91,7 +91,7 @@
   @import './assets/css/public.less';
 
   .content {
-    width: 1552px;
+    width: 1250px;
     margin: 0 auto;
   }
 

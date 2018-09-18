@@ -106,12 +106,12 @@
       </div>
     </div>
     <div class="foot flex">
-      <el-button v-if="detailData.productInfo.status===5" type="primary" @click="addCollection">确认收货</el-button>
-      <el-button v-if="detailData.productInfo.status===4&&detailData.orderInfo.commentFlag===0" type="primary"
+      <el-button v-if="detailData.orderInfo.orderStatus===5" type="primary" @click="addCollection">确认收货</el-button>
+      <el-button v-if="detailData.orderInfo.orderStatus===4&&detailData.orderInfo.commentFlag===0" type="primary"
                  @click="showEvaluatefun">
         评价商品
       </el-button>
-      <el-button v-if="detailData.productInfo.status===4&&detailData.orderInfo.commentFlag===1" type="primary"
+      <el-button v-if="detailData.orderInfo.orderStatus===4&&detailData.orderInfo.commentFlag===1" type="primary"
                  @click="watchEvaluate=!watchEvaluate">
         查看评价
       </el-button>

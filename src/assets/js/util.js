@@ -2,11 +2,14 @@ import axios from 'axios'
 import { Loading } from 'element-ui'
 
 let util = {}
+let debug = true
+const baseUrl = debug ? 'http://ope.lingyi365.com:5608/cloud/' : 'http://ope.lingyi365.com:5608/cloud/'
+const paymentUrl = debug ? 'http://ope.lingyi365.com:5608/payweb/Pages/PcOrderPayExe.html' : 'https://01.lingyi365.com/payweb/Pages/PcOrderPayExe.html'
 util.install = function (Vue, options) {
   Vue.prototype.ajax = function (url = '', type = 'POST', data = {}, retCallback, timeout = 30000, loadingShow = true) {
     let token = Vue.prototype.lycore.getUserToken()
     type = type.toUpperCase()
-    url = Vue.prototype.baseUrl + url
+    url = baseUrl + url
     let opaction = {
       method: type,
       url: url,
@@ -42,11 +45,12 @@ util.install = function (Vue, options) {
   //支付组件
   Vue.prototype.payment = function (orderId, money, title, userId, receiverId, callBackUrl = location.href) {
     receiverId = receiverId || '21dc2f8e-6e57-4eb5-afbb-a6910157dc21'
-    const url = debug ? 'http://ope.lingyi365.com:5608/payweb/Pages/PcOrderPayExe.html' : 'https://01.lingyi365.com/payweb/Pages/PcOrderPayExe.html'
-    const UId = userId || localStorage.getItem('userId')
+    const UId = userId || Vue.prototype.lycore.getUserId()
+    const userToken = Vue.prototype.lycore.getUserToken()
     Loading.service({lock: true, text: '正在调用支付组件，请稍等...'})
+
     setTimeout(function () {
-      window.location.href = url + '?businessTypeCode=56&orderId=' +
+      window.location.href = paymentUrl + '?businessTypeCode=56&orderId=' +
         orderId + '&title=' + escape(title) +
         '&tradeMoney=' + money + '&receiverId=' + receiverId +
         '&userId=' + UId +

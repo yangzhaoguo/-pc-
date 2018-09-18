@@ -209,7 +209,7 @@
               this.detailData.productInfo.productName,
               null,
               r.data.receiveId,
-              this.callBackUrl + 'payment_success?orderId=' + data.orderId
+              window.location.href.split(this.$route.path)[0] + '/payment_success?orderId=' + data.orderId
             )
           }
         }
@@ -231,6 +231,7 @@
     },
     created () {
       this.getDetailProduct()
+      console.log()
     },
     mounted () {
       console.log(1)

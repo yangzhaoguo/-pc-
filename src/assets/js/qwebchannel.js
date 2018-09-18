@@ -1,5 +1,5 @@
 'use strict'
-
+//公司模块
 let QWebChannelMessageTypes = {
   signal: 1,
   propertyUpdate: 2,

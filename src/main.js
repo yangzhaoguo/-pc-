@@ -18,13 +18,9 @@ Vue.use(ElementUI)
 Vue.config.productionTip = false
 /* eslint-disable no-new */
 /* eslint-disable no-eval */
-let debug = false
-let baseUrl
-baseUrl = debug ? 'http://ope.lingyi365.com:5608/cloud/' : 'http://ope.lingyi365.com:5608/cloud/'
 if (process.env.NODE_ENV === 'development') {
   let lycore = new Lycore(null, null, null)
   Vue.prototype.lycore = lycore
-  Vue.prototype.baseUrl = baseUrl
   Vue.use(util)
   new Vue({
     router,

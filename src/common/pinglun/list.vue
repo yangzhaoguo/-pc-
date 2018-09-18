@@ -41,8 +41,8 @@
           height: 40px;
           border-radius: 100%;
           overflow: hidden;
-          .itme-header-img img {
-            width: 100%;
+          img {
+            width: 40px;
             height: auto;
           }
         }
