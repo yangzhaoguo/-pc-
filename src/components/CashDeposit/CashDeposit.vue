@@ -85,8 +85,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { ajax, Payment } from '../../assets/js/user'
-
   export default {
     data () {
       return {
@@ -106,7 +104,7 @@
             this.$message.error(r.data)
           }
         }
-        ajax(url, 'get', {}, ret)
+        this.ajax(url, 'get', {}, ret)
       },
       get_self_vip_data () {
         const url = 'paimai/front/get_user_gurantee_rule?userId=' + this.lycore.getUserId()
@@ -120,7 +118,7 @@
             this.$message.error(r.data)
           }
         }
-        ajax(url, 'get', {}, ret)
+        this.ajax(url, 'get', {}, ret)
       },
       setVipType () {
         if (this.vip_type === '') {
@@ -133,9 +131,9 @@
         }
         const url = 'paimai/front/pre_pay'
         const ret = r => {
-          Payment(r.data.orderId, r.data.money, '升级保证金')
+          this.payment(r.data.orderId, r.data.money, '升级保证金')
         }
-        ajax(url, 'post', data, ret)
+        this.ajax(url, 'post', data, ret)
       }
     },
     created () {
@@ -153,7 +151,7 @@
           }
         }
         const url = 'paimai/front/notice_check_pay_result'
-        ajax(url, 'POST', data, ret)
+        this.ajax(url, 'POST', data, ret)
       }
     },
     watch: {

@@ -43,7 +43,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import * as USER from '../../assets/js/user'
   import CountDown from '../../common/countDown/countDown.vue'
 
   export default {
@@ -70,7 +69,7 @@
             this.$alert(r.data)
           }
         }
-        USER.ajax(url, 'get', data, ret)
+        this.ajax(url, 'get', data, ret)
       },
       goShopDetails (data) {
         this.$router.push({path: '/shop_details', query: {productId: data.productId}})

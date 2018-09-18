@@ -140,7 +140,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { ajax, Payment } from '../../assets/js/user'
   import PingLun from '../../common/pinglun/pinglun.vue'
   import PingLunList from '../../common/pinglun/list.vue'
   import JingPaiChuJia from '../../common/jingpai/jingpai.vue'
@@ -216,7 +215,7 @@
           console.log(this.detailData)
         }
         console.log(this.$route.query.orderId)
-        ajax(url, 'get', {orderId: this.$route.query.orderId}, ret, 30000, false)
+        this.ajax(url, 'get', {orderId: this.$route.query.orderId}, ret, 30000, false)
       },
       addCollection () {
         const data = {
@@ -229,7 +228,7 @@
         const ret = r => {
           console.log(r)
           if (r.busCode !== 200) {
-            Payment(
+            this.payment(
               r.data.orderId,
               r.data.orderMoney,
               this.detailData.productInfo.productName,
@@ -240,7 +239,7 @@
           }
           this.$message.success(r.data)
         }
-        ajax(url, 'post', data, ret)
+        this.ajax(url, 'post', data, ret)
       },
       getEvaluateData () {
         const url = 'paimai/front/detail_order_comment'
@@ -252,7 +251,7 @@
             this.$message.error(r.data)
           }
         }
-        ajax(url, 'get', {orderId: this.$route.query.orderId}, ret)
+        this.ajax(url, 'get', {orderId: this.$route.query.orderId}, ret)
       },
       postAddressData (data) {
         this.address = data.region + ' ' + data.detailAddress
@@ -284,7 +283,7 @@
             this.$message.error(r.data)
           }
         }
-        ajax(url, 'POST', data, ret)
+        this.ajax(url, 'POST', data, ret)
       }
     },
     components: {

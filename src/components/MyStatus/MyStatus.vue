@@ -16,8 +16,6 @@
 </template>
 
 <script>
-  import * as USER from '../../assets/js/user'
-
   export default {
     data () {
       return {
@@ -59,7 +57,7 @@
             this.$alert(r)
           }
         }
-        USER.ajax(url, 'get', {}, ret)
+        this.ajax(url, 'get', {}, ret)
       }
     },
     created () {

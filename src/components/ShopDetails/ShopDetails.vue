@@ -109,7 +109,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { ajax, Payment } from '../../assets/js/user'
   import PingLun from '../../common/pinglun/pinglun.vue'
   import PingLunList from '../../common/pinglun/list.vue'
   import JingPaiChuJia from '../../common/jingpai/jingpai.vue'
@@ -182,7 +181,7 @@
             this.$message.error(r.data)
           }
         }
-        ajax(url, 'get', {productId: this.$route.query.productId}, ret, 30000, false)
+        this.ajax(url, 'get', {productId: this.$route.query.productId}, ret, 30000, false)
       },
       getPriceList () {
         const data = {
@@ -200,7 +199,7 @@
             this.$message.error(r.data)
           }
         }
-        ajax(url, 'get', data, ret, 30000, false)
+        this.ajax(url, 'get', data, ret, 30000, false)
       },
       getCommentList () {
         if (this.commentPageNo > this.commentCount) {
@@ -222,7 +221,7 @@
             this.$message.error(r.data)
           }
         }
-        ajax(url, 'get', data, ret, 30000, false)
+        this.ajax(url, 'get', data, ret, 30000, false)
       },
       postComment (text) {
         const data = {
@@ -242,7 +241,7 @@
             this.$message.error(r.data)
           }
         }
-        ajax(url, 'post', data, ret)
+        this.ajax(url, 'post', data, ret)
       },
       postPrice (num) {
         const data = {
@@ -273,16 +272,16 @@
                   type: 'warning'
                 }).then(() => {
                   this.AuctionDidVisi = false
-                  Payment(request.data.orderId, request.data.money, request.data.title, false, false, location.href + '&orderId=' + request.data.orderId)
+                  this.payment(request.data.orderId, request.data.money, request.data.title, false, false, location.href + '&orderId=' + request.data.orderId)
                 }).catch(() => {})
               }
             }
-            ajax(url, 'GET', data, retfun)
+            this.ajax(url, 'GET', data, retfun)
           } else {
             this.$message.error(r.data)
           }
         }
-        ajax(url, 'post', data, ret)
+        this.ajax(url, 'post', data, ret)
       },
       soleDown () {
         if (this.activeName === '2') {
@@ -301,7 +300,7 @@
         const ret = r => {
           this.$message.success(r.data)
         }
-        ajax(url, 'post', data, ret)
+        this.ajax(url, 'post', data, ret)
       }
     },
     components: {
@@ -325,7 +324,7 @@
         const ret = r => {
           console.log(r)
         }
-        ajax(url, 'get', data, ret, 3000, false)
+        this.ajax(url, 'get', data, ret, 3000, false)
       }
     }
   }

@@ -58,7 +58,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { ajax } from '../../assets/js/user'
   import CountDown from '../../common/countDown/countDown.vue'
 
   export default {
@@ -85,7 +84,7 @@
             this.$alert(r.data)
           }
         }
-        ajax(url, 'get', data, ret, 30000, false)
+        this.ajax(url, 'get', data, ret, 30000, false)
       },
       goShopDetails (data) {
         console.log(data)

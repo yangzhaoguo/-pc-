@@ -75,8 +75,6 @@
 
 <script type="text/ecmascript-6">
   import vueAddAddress from '../../common/Address/Address'
-  import * as USER from '../../assets/js/user'
-
   export default {
     data () {
       return {
@@ -138,7 +136,7 @@
               this.$message.error(r.data)
             }
           }
-          USER.ajax(url, 'get', data, ret)
+          this.ajax(url, 'get', data, ret)
         } catch (err) {
         }
       },
@@ -153,7 +151,7 @@
             this.$message.error(r.data)
           }
         }
-        USER.ajax(url, 'POST', data, ret)
+        this.ajax(url, 'POST', data, ret)
       },
       setDefault (scope) {
         if (scope.row.defaultFlag === 1) {
@@ -173,7 +171,7 @@
             this.$message.error(r.data)
           }
         }
-        USER.ajax(url, 'post', data, ret)
+        this.ajax(url, 'post', data, ret)
       },
       deleteAddress (scope) {
         if (this.tableData[scope.$index].defaultFlag === 1) {
@@ -198,7 +196,7 @@
               this.$message.error(r.data)
             }
           }
-          USER.ajax(url, 'post', data, ret)
+          this.ajax(url, 'post', data, ret)
         })
       }
     },

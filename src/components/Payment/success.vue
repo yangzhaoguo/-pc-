@@ -4,7 +4,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { ajax } from '../../assets/js/user'
 
   export default {
     data () {
@@ -26,7 +25,7 @@
             this.$router.push({path: '/payment', query: {orderId: this.$route.query.orderId}})
           }
         }
-        ajax(url, 'get', data, ret, 30000, false)
+        this.ajax(url, 'get', data, ret, 30000, false)
       }
     },
     components: {},

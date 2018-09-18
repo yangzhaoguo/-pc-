@@ -25,7 +25,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {Trim} from '../../assets/js/user'
 
   export default {
     data() {
@@ -36,7 +35,7 @@
     },
     methods: {
       inputBlur() {
-        this.text = Trim(this.text)
+        this.text = this.trim(this.text)
       },
       postMessage() {
         if (this.text.length < 5) {

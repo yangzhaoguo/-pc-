@@ -9,6 +9,7 @@ import './assets/css/style.css'
 import './assets/css/reset.css'
 import '../theme/index.css'
 import VideoPlayer from 'vue-video-player'
+import util from './assets/js/util'
 
 require('video.js/dist/video-js.css')
 require('vue-video-player/src/custom-theme.css')
@@ -17,9 +18,14 @@ Vue.use(ElementUI)
 Vue.config.productionTip = false
 /* eslint-disable no-new */
 /* eslint-disable no-eval */
+let debug = false
+let baseUrl
+baseUrl = debug ? 'http://ope.lingyi365.com:5608/cloud/' : 'http://ope.lingyi365.com:5608/cloud/'
 if (process.env.NODE_ENV === 'development') {
   let lycore = new Lycore(null, null, null)
   Vue.prototype.lycore = lycore
+  Vue.prototype.baseUrl = baseUrl
+  Vue.use(util)
   new Vue({
     router,
     render: h => h(App)
@@ -42,9 +48,8 @@ if (process.env.NODE_ENV === 'development') {
       //alert("获取企业信息失败！");
     }
     var lycore = new Lycore(_qtbound, _userLoginInfo, _userInEnterpriseInfo)
-    localStorage.setItem('userToken', lycore.getUserToken())
-    localStorage.setItem('userId', lycore.getUserId())
     Vue.prototype.lycore = lycore
+    Vue.use(util)
     new Vue({
       router,
       render: h => h(App)

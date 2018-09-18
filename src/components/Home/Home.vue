@@ -23,7 +23,6 @@
 </template>
 
 <script>
-  import * as USER from '../../assets/js/user'
   import Goods from './goods.vue'
 
   export default {
@@ -46,7 +45,7 @@
             this.$alert(r.data)
           }
         }
-        USER.ajax(url, 'get', {}, ret)
+        this.ajax(url, 'get', {}, ret)
       }
     },
     components: {
