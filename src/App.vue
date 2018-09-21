@@ -10,26 +10,26 @@
           <div>
             <img class="logo" src="./logo.png" alt="">
           </div>
-          <el-menu-item index="x" style="margin-left: 90px">
-            <a href="javascript:">自由市场</a>
-          </el-menu-item>
-          <el-menu-item index="1">
-            <a href="javascript:">品牌直销</a>
-          </el-menu-item>
-          <el-menu-item index="/home/0">
-            <a href="javascript:">拍卖场</a>
-          </el-menu-item>
-          <el-menu-item index="3">
-            <a href="javascript:">灵铱商城</a>
-          </el-menu-item>
-          <el-submenu index="4" style="margin-left: 90px">
-            <template slot="title"><span>更多</span></template>
-            <el-menu-item index="/my/bidding">竞拍状态</el-menu-item>
-            <el-menu-item index="/shipping_address">收货地址</el-menu-item>
-            <!--<el-menu-item index="4-3">保证金</el-menu-item>-->
-            <el-menu-item index="/my_indext/daiZhiFu">我的订单</el-menu-item>
-            <el-menu-item index="/collection">我的收藏</el-menu-item>
-          </el-submenu>
+          <!--<el-menu-item index="x" style="margin-left: 90px">-->
+          <!--<a href="javascript:">自由市场</a>-->
+          <!--</el-menu-item>-->
+          <!--<el-menu-item index="1">-->
+          <!--<a href="javascript:">品牌直销</a>-->
+          <!--</el-menu-item>-->
+          <el-menu-item index="/home/0">拍卖场</el-menu-item>
+          <el-menu-item index="/my/bidding">竞拍状态</el-menu-item>
+          <el-menu-item index="/shipping_address">收货地址</el-menu-item>
+          <el-menu-item index="/my_indext/daiZhiFu">我的订单</el-menu-item>
+          <el-menu-item index="/collection">我的收藏</el-menu-item>
+
+          <!--<el-submenu index="4" style="margin-left: 90px">-->
+          <!--<template slot="title"><span>更多</span></template>-->
+          <!--<el-menu-item index="/my/bidding">竞拍状态</el-menu-item>-->
+          <!--<el-menu-item index="/shipping_address">收货地址</el-menu-item>-->
+          <!--&lt;!&ndash;<el-menu-item index="4-3">保证金</el-menu-item>&ndash;&gt;-->
+          <!--<el-menu-item index="/my_indext/daiZhiFu">我的订单</el-menu-item>-->
+          <!--<el-menu-item index="/collection">我的收藏</el-menu-item>-->
+          <!--</el-submenu>-->
         </el-menu>
       </el-header>
     </div>
@@ -105,6 +105,6 @@
   .logo {
     position: absolute;
     top: 16px;
-    left: 10px;
+    left: -50px;
   }
 </style>

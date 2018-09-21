@@ -3,7 +3,7 @@ import { Loading } from 'element-ui'
 
 let util = {}
 let debug = true
-const baseUrl = debug ? 'http://ope.lingyi365.com:5608/cloud/' : 'http://ope.lingyi365.com:5608/cloud/'
+const baseUrl = debug ? 'http://ope.lingyi365.com:5608/cloud/' : 'https://01.lingyi365.com:443/cloud/'
 const paymentUrl = debug ? 'http://ope.lingyi365.com:5608/payweb/Pages/PcOrderPayExe.html' : 'https://01.lingyi365.com/payweb/Pages/PcOrderPayExe.html'
 util.install = function (Vue, options) {
   Vue.prototype.ajax = function (url = '', type = 'POST', data = {}, retCallback, timeout = 30000, loadingShow = true) {

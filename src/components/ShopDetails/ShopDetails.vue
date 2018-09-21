@@ -177,6 +177,19 @@
             if (r.data.showWay === 2) {
               this.playerOptions.sources[0].src = r.data.showUrls[0]
             }
+            if (this.$route.query.orderId) {
+              this.AuctionDidVisi = true
+              const data = {
+                'userId': this.lycore.getUserId(),
+                'orderId': this.$route.query.orderId
+              }
+              const url = 'paimai/front/notice_promise_money_pay_result'
+              console.log(data)
+              const ret = r => {
+                console.log(r)
+              }
+              this.ajax(url, 'get', data, ret, 3000, false)
+            }
           } else {
             this.$message.error(r.data)
           }
@@ -314,18 +327,6 @@
     created () {
       this.init()
       //支付成功返回后提交支付结果
-      if (this.$route.query.orderId) {
-        const data = {
-          'userId': this.lycore.getUserId(),
-          'orderId': this.$route.query.orderId
-        }
-        const url = 'paimai/front/notice_promise_money_pay_result'
-        console.log(data)
-        const ret = r => {
-          console.log(r)
-        }
-        this.ajax(url, 'get', data, ret, 3000, false)
-      }
     }
   }
 </script>
